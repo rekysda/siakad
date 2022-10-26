@@ -78,7 +78,7 @@ class Auth extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'User Login';
 			$data['body_class'] = 'login-page';
-			$login_button = '<a href="'.$google_client->createAuthUrl().'" class="btn btn-google btn-user btn-block"> <i class="fab fa-google fa-fw"></i> Login with Google</a>';
+			$login_button = '<a href="'.$google_client->createAuthUrl().'" class="btn btn-google btn-user btn-block"> <i class="fa fa-google fa-fw"></i> Login with Google</a>';
 			$data['login_button'] = $login_button;
 			$this->load->view('themes/backend/auth/header', $data);
 			$this->load->view('login', $data);
