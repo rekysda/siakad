@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 09:38 AM
+-- Generation Time: Oct 26, 2022 at 09:45 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `siska`
+-- Database: `siakad`
 --
-CREATE DATABASE IF NOT EXISTS `siska` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `siska`;
+CREATE DATABASE IF NOT EXISTS `siakad` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `siakad`;
 
 -- --------------------------------------------------------
 
