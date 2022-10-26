@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 08:15 AM
+-- Generation Time: Oct 26, 2022 at 08:38 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -1133,8 +1133,8 @@ INSERT INTO `options` (`id`, `name`, `value`) VALUES
 (1, 'site_title', 'PusatWebStore Indonesia'),
 (2, 'site_description', 'PusatWebStore Indonesia'),
 (3, 'site_keyword', 'pusatwebstore, indonesia, surabaya, hosting, domain'),
-(4, 'forgot_password', '1'),
-(5, 'signup_member', '1'),
+(4, 'forgot_password', '0'),
+(5, 'signup_member', '0'),
 (6, 'protocol', 'smtp'),
 (7, 'smtp_host', 'ssl://smtp.googlemail.com'),
 (8, 'smtp_user', 'rekysmtp@gmail.com'),
@@ -2823,7 +2823,12 @@ INSERT INTO `tb_log` (`id`, `tanggal`, `user`, `aksi`, `item`) VALUES
 (29, '2020-01-26 02:11:14', 'rekysda@gmail.com', 'Edit Websetting', ''),
 (30, '2020-01-26 02:11:55', 'rekysda@gmail.com', 'Edit Websetting', ''),
 (31, '2020-01-26 02:12:57', 'rekysda@gmail.com', 'Edit Websetting', ''),
-(32, '2020-01-26 02:30:41', 'rekysda@gmail.com', 'Edit Websetting', '');
+(32, '2020-01-26 02:30:41', 'rekysda@gmail.com', 'Edit Websetting', ''),
+(33, '2022-10-26 06:25:17', 'admin@admin.com', 'Edit Profil', 'admin@admin.com'),
+(34, '2022-10-26 06:26:08', 'admin@admin.com', 'Hapus Role', 'Member'),
+(35, '2022-10-26 06:27:00', 'admin@admin.com', 'Tambah User', 'rifqihakim5889@gmail.com'),
+(36, '2022-10-26 06:27:08', 'admin@admin.com', 'Edit User', 'rekysda@gmail.com'),
+(37, '2022-10-26 06:32:50', 'rekysda@gmail.com', 'Edit User', 'rifqihakim5889@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -2849,8 +2854,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`) VALUES
-(3, 'Administrator', 'admin', 'admin@admin.com', '1561003412920.jpg', '$2y$10$wPm2pR4SeiPO3QTuFKR6jutRTEtex5GtmSIN69yv2aIbBu7k9eGti', 1, 1, 1555463755),
-(10, 'Member', 'member', 'rekysda@gmail.com', '1561003341521.jpg', '$2y$10$8ncaQruemAiAVbM9StbxkeUnyjv1zirNcmPaKOTsS2fU86Pcgsaqu', 2, 1, 1556095800);
+(3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$wPm2pR4SeiPO3QTuFKR6jutRTEtex5GtmSIN69yv2aIbBu7k9eGti', 1, 1, 1555463755),
+(11, 'Administrator', 'admin', 'rifqihakim5889@gmail.com', 'default.jpg', '$2y$10$Ko3FfgsQNjJFrlpjiIjnoe5Bw0H9QnLZf0sMdRc/DfSlEMETB9tv2', 1, 1, 1666765620);
 
 -- --------------------------------------------------------
 
@@ -3079,7 +3084,6 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`id`, `role`) VALUES
 (1, 'Administrator'),
-(2, 'Member'),
 (3, 'CalonSiswa'),
 (4, 'SiswaAktif'),
 (5, 'Guru');
@@ -4220,13 +4224,13 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT for table `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
