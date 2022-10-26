@@ -40,6 +40,8 @@
         <div class="col-xs-4">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
+        <hr>
+        <?= $login_button ?>
         <!-- /.col -->
       </div>
     </form>

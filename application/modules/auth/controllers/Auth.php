@@ -16,6 +16,61 @@ class Auth extends CI_Controller
 			redirect('user');
 		}
 	 if (options('forbidden') == '0') {
+		include_once APPPATH . "../vendor/autoload.php";
+		$this->load->model('LoginModel');
+	//	require APPPATH . 'vendor/google/google-api-php-client/vendor/autoload.php';
+		$google_client = new Google_Client();
+        $google_client->setClientId('780327326834-40029f0fvm9r6l7er9c4h4kdr0a44j8u.apps.googleusercontent.com'); //Define your ClientID
+        $google_client->setClientSecret('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'); //Define your Client Secret Key
+        $google_client->setRedirectUri(base_url('login')); //Define your Redirect Uri
+        $google_client->addScope('email');
+        $google_client->addScope('profile');
+		if(isset($_GET["code"]))
+        {
+        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+
+                if(!isset($token["error"]))
+                {
+                    $google_client->setAccessToken($token['access_token']);
+                    $this->session->set_userdata('access_token', $token['access_token']);
+                    $google_service = new Google_Service_Oauth2($google_client);
+                    $data = $google_service->userinfo->get();
+					// Data dari Google
+					$first_name= $data['given_name'];
+                    $last_name  = $data['family_name'];
+                    $email_address = $data['email'];
+					$login_oauth_uid = $data['id'];
+					$google_picture = $data['picture'];
+
+		if($this->LoginModel->Is_already_register_email($email_address))
+		{
+			$this->db->set('login_oauth_uid', $login_oauth_uid);
+			$this->db->where('email',$email_address);
+			$this->db->update('user');
+			// jika ada di database kita maka dilakukan session user
+			$user_details = $this->LoginModel->checkuserlogin($email_address);
+
+			$session_data['user_id'] 	= $user_details->id;
+			$session_data['username']	= $user_details->username;
+			$session_data['email']	= $user_details->email;
+			$session_data['role_id'] 	= $user_details->role_id;
+			$session_data['nama']	= $user_details->nama;
+			$session_data['google_picture']	= $google_picture;
+			$this->session->set_userdata($session_data);
+			redirect('user');
+		}else{
+			// jika tidak ada di database kita maka error atau insert ke database member dengan data email dari google
+			$this->session->set_flashdata('message', '
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			Email belum terdaftar di Database...!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button></div>
+			');
+			redirect('login');
+				}	
+			}
+		}
 
 		$this->form_validation->set_rules('username', 'Username', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -23,6 +78,8 @@ class Auth extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'User Login';
 			$data['body_class'] = 'login-page';
+			$login_button = '<a href="'.$google_client->createAuthUrl().'" class="btn btn-google btn-user btn-block"> <i class="fab fa-google fa-fw"></i> Login with Google</a>';
+			$data['login_button'] = $login_button;
 			$this->load->view('themes/backend/auth/header', $data);
 			$this->load->view('login', $data);
 			$this->load->view('themes/backend/auth/footer');
@@ -56,7 +113,7 @@ class Auth extends CI_Controller
 					];
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {
-						redirect('dashboard');
+						redirect('user');
 					} else {
 						redirect('user');
 					}
@@ -216,6 +273,7 @@ class Auth extends CI_Controller
 
 	public function logout()
 	{
+		/*
 		$this->session->unset_userdata('username');
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
@@ -223,6 +281,8 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('tahun_ppdb');
 		$this->session->unset_userdata('siswa_id');
 		$this->session->unset_userdata('gelombang_id');
+		*/
+		$this->session->sess_destroy();
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">
 		You have been logout!</div>');
 		redirect('login');
@@ -403,6 +463,83 @@ $this->email->send();
 
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Congratulation! your token has been created. Please check your email!</div>');
 		redirect('auth/login_token');
+	}
+
+	public function index2(){
+		if (version_compare(PHP_VERSION, '7.2.5', '>='))
+		{
+		include_once APPPATH . "../vendor/autoload.php";
+		$this->load->model('LoginModel');
+	//	require APPPATH . 'vendor/google/google-api-php-client/vendor/autoload.php';
+		$google_client = new Google_Client();
+        $google_client->setClientId('780327326834-40029f0fvm9r6l7er9c4h4kdr0a44j8u.apps.googleusercontent.com'); //Define your ClientID
+        $google_client->setClientSecret('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'); //Define your Client Secret Key
+        $google_client->setRedirectUri(base_url('login')); //Define your Redirect Uri
+        $google_client->addScope('email');
+        $google_client->addScope('profile');
+		if(isset($_GET["code"]))
+        {
+        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+
+                if(!isset($token["error"]))
+                {
+                    $google_client->setAccessToken($token['access_token']);
+                    $this->session->set_userdata('access_token', $token['access_token']);
+                    $google_service = new Google_Service_Oauth2($google_client);
+                    $data = $google_service->userinfo->get();
+					// Data dari Google
+					$first_name= $data['given_name'];
+                    $last_name  = $data['family_name'];
+                    $email_address = $data['email'];
+					$login_oauth_uid = $data['id'];
+					$google_picture = $data['picture'];
+
+		if($this->LoginModel->Is_already_register_email($email_address))
+		{
+			$this->db->set('login_oauth_uid', $login_oauth_uid);
+			$this->db->where('email',$email_address);
+			$this->db->update('user');
+			// jika ada di database kita maka dilakukan session user
+			$user_details = $this->LoginModel->checkuserlogin($email_address);
+
+			$session_data['user_id'] 	= $user_details->id;
+			$session_data['username']	= $user_details->username;
+			$session_data['email']	= $user_details->email;
+			$session_data['role_id'] 	= $user_details->role_id;
+			$session_data['nama']	= $user_details->nama;
+			$session_data['google_picture']	= $google_picture;
+			$this->session->set_userdata($session_data);
+			redirect('user');
+		}else{
+			// jika tidak ada di database kita maka error atau insert ke database member dengan data email dari google
+			$this->session->set_flashdata('message', '
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			Email belum terdaftar di Database...!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button></div>
+			');
+			redirect('login');
+				}	
+			}
+		}
+	}
+		if (isset($this->session->email)) {
+			redirect('user');
+		} else {
+			$login_button = '';
+			if (version_compare(PHP_VERSION, '7.2.5', '>='))
+			{
+			$login_button = '<a href="'.$google_client->createAuthUrl().'" class="btn btn-google btn-user btn-block"> <i class="fab fa-google fa-fw"></i> Login with Google</a>';
+			}else{
+$login_button = '<div class="alert alert-warning">
+I am at least PHP version 7.2.5, my version: ' . PHP_VERSION .'</div>';
+			}
+			$data['login_button'] = $login_button;
+			$this->load->view('themes/backend/auth/header', $data);
+			$this->load->view('login', $data);
+			$this->load->view('themes/backend/auth/footer');
+		}	
 	}
 	//end class
 }

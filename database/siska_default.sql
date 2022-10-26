@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 08:38 AM
+-- Generation Time: Oct 26, 2022 at 09:10 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -2846,16 +2846,17 @@ CREATE TABLE `user` (
   `password` varchar(256) NOT NULL,
   `role_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
-  `date_created` int(11) NOT NULL
+  `date_created` int(11) NOT NULL,
+  `login_oauth_uid` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`) VALUES
-(3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$wPm2pR4SeiPO3QTuFKR6jutRTEtex5GtmSIN69yv2aIbBu7k9eGti', 1, 1, 1555463755),
-(11, 'Administrator', 'admin', 'rifqihakim5889@gmail.com', 'default.jpg', '$2y$10$Ko3FfgsQNjJFrlpjiIjnoe5Bw0H9QnLZf0sMdRc/DfSlEMETB9tv2', 1, 1, 1666765620);
+INSERT INTO `user` (`id`, `name`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`, `login_oauth_uid`) VALUES
+(3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$wPm2pR4SeiPO3QTuFKR6jutRTEtex5GtmSIN69yv2aIbBu7k9eGti', 1, 1, 1555463755, '115893857561817154855'),
+(11, 'Administrator', 'admin', 'rifqihakim5889@gmail.com', 'default.jpg', '$2y$10$Ko3FfgsQNjJFrlpjiIjnoe5Bw0H9QnLZf0sMdRc/DfSlEMETB9tv2', 1, 1, 1666765620, '');
 
 -- --------------------------------------------------------
 
