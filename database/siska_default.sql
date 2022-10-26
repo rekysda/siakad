@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 09:10 AM
+-- Generation Time: Oct 26, 2022 at 09:38 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -2828,7 +2828,9 @@ INSERT INTO `tb_log` (`id`, `tanggal`, `user`, `aksi`, `item`) VALUES
 (34, '2022-10-26 06:26:08', 'admin@admin.com', 'Hapus Role', 'Member'),
 (35, '2022-10-26 06:27:00', 'admin@admin.com', 'Tambah User', 'rifqihakim5889@gmail.com'),
 (36, '2022-10-26 06:27:08', 'admin@admin.com', 'Edit User', 'rekysda@gmail.com'),
-(37, '2022-10-26 06:32:50', 'rekysda@gmail.com', 'Edit User', 'rifqihakim5889@gmail.com');
+(37, '2022-10-26 06:32:50', 'rekysda@gmail.com', 'Edit User', 'rifqihakim5889@gmail.com'),
+(38, '2022-10-26 07:12:37', 'rekysda@gmail.com', 'Edit User', 'rekysda@gmail.com'),
+(39, '2022-10-26 07:12:43', 'rekysda@gmail.com', 'Edit User', 'rifqihakim5889@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -2855,8 +2857,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`, `login_oauth_uid`) VALUES
-(3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$wPm2pR4SeiPO3QTuFKR6jutRTEtex5GtmSIN69yv2aIbBu7k9eGti', 1, 1, 1555463755, '115893857561817154855'),
-(11, 'Administrator', 'admin', 'rifqihakim5889@gmail.com', 'default.jpg', '$2y$10$Ko3FfgsQNjJFrlpjiIjnoe5Bw0H9QnLZf0sMdRc/DfSlEMETB9tv2', 1, 1, 1666765620, '');
+(3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$MPnKRsUT8l7GHr.0/Bm2UOwgZj70oSwRKM0clSuU3EfMK75RJcu5q', 1, 1, 1555463755, '115893857561817154855'),
+(11, 'Administrator', 'admin', 'rifqihakim5889@gmail.com', 'default.jpg', '$2y$10$HkpekNzXW8oKxPJZOiLGXuzTjOVtQ2Zta2nczci2l9hMprxj3k8uq', 1, 1, 1666765620, '');
 
 -- --------------------------------------------------------
 
@@ -4225,7 +4227,7 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT for table `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `user`

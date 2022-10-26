@@ -29,7 +29,9 @@ html,
 body {
 	height: 100%;
 	/* background-color: #3c8dbc; */
-	background: url(../images/bg.jpg);
+
+	background: url(../images/bg.jpg) no-repeat center center fixed; 
+    background-size: cover;
 }
 
 body {
