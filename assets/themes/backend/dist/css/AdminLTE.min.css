@@ -3764,6 +3764,7 @@ table.text-center th {
 .login-page,
 .register-page {
 	background: #000 url(../img/bg.jpg) top center no-repeat;
+	background-size: 100% 100%;
 }
 
 .login-box,
