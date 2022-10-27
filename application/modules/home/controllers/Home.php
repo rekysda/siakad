@@ -17,8 +17,6 @@ class Home extends CI_Controller
 	{
 		$data['infosekolah'] = $this->db->get_where('m_sekolah', ['id' => '1'])->row_array();
 		$data['title'] = 'SIAKAD ' . $data['infosekolah']['sekolah'];
-
-		$this->load->view('themes/frontend/head2', $data);
 		$this->load->view('forbidden', $data);
 	}
 }
