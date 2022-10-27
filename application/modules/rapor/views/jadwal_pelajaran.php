@@ -21,18 +21,23 @@
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title"><?= $title; ?></h3>
-        <div class="box-tools">
-        <form   class="form-inline" method="post" action="" enctype ="multipart/form-data" id="posts">
-        <select name="tahunakademik_id" class="form-control <?= form_error('tahunakademik_id') ? 'is-invalid' : '' ?>">
-                            <option value="">== Tahun Akademik ==</option>
-                            <?php foreach ($tahunakademik as $dt) : ?>
-                            <option value="<?= $dt['id']; ?>"<?= set_select('tahunakademik_id', $dt['id'], FALSE); ?>><?= $dt['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <select name="kelas_id" class="form-control <?= form_error('kelas_id') ? 'is-invalid' : '' ?>">
+        <div class="box-tools">        
+<form   class="form-inline" method="post" action="" enctype ="multipart/form-data" id="posts">
+<select name="tahunakademik_id" class="form-control <?= form_error('tahunakademik_id') ? 'is-invalid' : '' ?>">
+<option value="">== Tahun Akademik ==</option>
+<?php foreach ($tahunakademik as $dt) : ?>                        
+<option value="<?= $dt['id']; ?>"
+<?=($dt['id']==$this->session->userdata('tahunakademik_id')? 'selected="selected"' : '' )?>
+><?= $dt['nama']; ?></option>
+<?php endforeach; ?>
+</select>
+
+<select name="kelas_id" class="form-control <?= form_error('kelas_id') ? 'is-invalid' : '' ?>">
                             <option value="">== Kelas ==</option>
                             <?php foreach ($kelas as $dt) : ?>
-                            <option value="<?= $dt['id']; ?>"<?= set_select('kelas_id', $dt['id'], FALSE); ?>><?= $dt['nama_kelas']; ?> (<?= $dt['tahun']; ?>)</option>
+<option value="<?= $dt['id']; ?>"
+<?=($dt['id']==$this->session->userdata('kelas_id')? 'selected="selected"' : '' )?>
+><?= $dt['nama_kelas']; ?> (<?= $dt['tahun']; ?>)</option>
                             <?php endforeach; ?>
                         </select>
         <input type="submit" value="Lihat" name="submit"class="btn btn-success">
