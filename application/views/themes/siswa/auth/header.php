@@ -1,33 +1,41 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?= $title; ?></title>
-  <link rel="shortcut icon" href="<?= base_url('assets/favicon.ico')?>">
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/Ionicons/css/ionicons.min.css'); ?>">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/dist/css/AdminLTE.min.css'); ?>">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/plugins/iCheck/square/blue.css'); ?>">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title><?= $title ?></title>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <link rel="shortcut icon" href="<?= base_url('assets/favicon.ico')?>">
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?= base_url('assets/themes/frontend/css/bootstrap.min.css') ?>" rel="stylesheet">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="<?= base_url('assets/themes/frontend/css/cover.css') ?>" rel="stylesheet">
 </head>
 
-<body class="hold-transition <?= $body_class; ?>">
+<body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
