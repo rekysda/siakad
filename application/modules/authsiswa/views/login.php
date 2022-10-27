@@ -16,12 +16,13 @@
         <?= form_error('nis', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="form-group has-feedback <?= form_error('tanggallahirsiswa') ? 'has-error' : '' ?>">
-        <input type="password" id="tanggallahirsiswa" name="tanggallahirsiswa" id="tanggallahirsiswa"  value="<?= set_value('tanggallahirsiswa'); ?>" class="form-control" placeholder="yyyy-mm-dd">
+        <input id='myInput' type="password" id="tanggallahirsiswa" name="tanggallahirsiswa" id="tanggallahirsiswa"  value="<?= set_value('tanggallahirsiswa'); ?>" class="form-control" placeholder="yyyy-mm-dd">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         <?= form_error('tanggallahirsiswa', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="row">
       <div class="col-xs-8">
+      <input type="checkbox" onclick="myFunction()"> Show Password </label>
       Forgot Password?<br>
       Please contact our School
         </div>
