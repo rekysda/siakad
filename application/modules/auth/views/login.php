@@ -12,7 +12,9 @@
     <div style="border: 1px solid black; padding: 10px;margin: 10px;border-radius: 20px;" class="text-center"><span style="font-size: 100pt;" class="glyphicon glyphicon-education"></span></div>
 -->
 <div class="text-center">
+<a href="<?= base_url(''); ?>">
 <img src="<?= base_url('assets/images/nophoto.png') ?>" class="img-fluid" alt="Responsive image">
+</a>
 </div>
     <form class="user" method="post" action="<?= base_url('auth'); ?>">
       <!-- <div class="form-group has-feedback <?= form_error('username') ? 'has-error' : '' ?>">
@@ -47,6 +49,7 @@
         </div> -->
         <!-- <hr><hr> -->
         <?= $login_button ?>
+        Back !
         <!-- /.col -->
       </div>
     </form>

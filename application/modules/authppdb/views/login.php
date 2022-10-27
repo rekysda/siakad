@@ -22,7 +22,7 @@
       </div>
       <div class="row">
       <div class="col-xs-8">
-      <input type="checkbox" onclick="myFunction()"> Show Password </label>
+      <input type="checkbox" onclick="myFunction()"> Show Password </label><br>
       Forgot Password?<br>
       Please contact our School
         </div>

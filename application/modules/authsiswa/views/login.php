@@ -16,7 +16,7 @@
         <?= form_error('nis', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="form-group has-feedback <?= form_error('tanggallahirsiswa') ? 'has-error' : '' ?>">
-        <input id='myInput' type="password" id="tanggallahirsiswa" name="tanggallahirsiswa" id="tanggallahirsiswa"  value="<?= set_value('tanggallahirsiswa'); ?>" class="form-control" placeholder="yyyy-mm-dd">
+        <input id='myInput' type="password" name="tanggallahirsiswa"  value="" class="form-control" placeholder="yyyy-mm-dd">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         <?= form_error('tanggallahirsiswa', '<div class="text-danger">', '</div>') ?>
       </div>

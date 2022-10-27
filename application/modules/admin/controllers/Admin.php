@@ -80,40 +80,72 @@ activity_log($user,'Tambah Role',$item);
         $this->load->view('themes/backend/footerajax');
     }
 
-    public function changeAccess()
+    public function update_role_access($value='')
     {
-        $menu_id = $this->input->post('menuId');
-        $role_id = $this->input->post('roleId');
+       // $menu = $this->input->post('menu[]');
+       $role = $this->input->post('role');
 
-        $data = [
-            'role_id' => $role_id,
-            'menu_id' => $menu_id
-        ];
-        $result = $this->db->get_where('user_access_menu', $data);
-        if ($result->num_rows() < 1) {
-            $this->db->insert('user_access_menu', $data);
-        } else {
-            $this->db->delete('user_access_menu', $data);
-        }
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Access Changed!</div>');
-    }
-    public function changeAccesssub()
-    {
-        $role_id = $this->input->post('roleId');
-        $submenu_id = $this->input->post('submenuid');
+       //Access menu
+       $daftarMenu = $this->db->get('user_menu')->result_array();
+       foreach ($daftarMenu as $dt1) {
+        $cek_accessmenu = $this->db->get_where('user_access_menu', ['role_id'=>$role, 'menu_id'=>$dt1['id']])->row_array();
+        if ($cek_accessmenu) {
+           if ($this->input->post('menu'.$dt1['id'])) {
+            $data = [
+                'role_id' => $role,
+                'menu_id' => $dt1['id']
+              ];
+              $this->db->where('id', $cek_accessmenu['id']);
+              $this->db->update('user_access_menu', $data);
+          }else{
+            $this->db->where('id', $cek_accessmenu['id']);
+            $this->db->delete('user_access_menu');
+          }
 
-        $data = [
-            'role_id' => $role_id,
-            'submenu_id' => $submenu_id
-        ];
-        $result = $this->db->get_where('user_access_submenu', $data);
-        if ($result->num_rows() < 1) {
-            $this->db->insert('user_access_submenu', $data);
-        } else {
-            $this->db->delete('user_access_submenu', $data);
+        }else{
+          if ($this->input->post('menu'.$dt1['id'])) {
+            $data = [
+                'role_id' => $role,
+                'menu_id' => $dt1['id']
+              ];
+              // $this->db->where('id', $cek_accessmenu['id']);
+              $this->db->insert('user_access_menu', $data);
+          }
         }
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Access Changed!</div>');
+       }
+
+       //Access submenu
+       $daftarsubMenu = $this->db->get('user_sub_menu')->result_array();
+       foreach ($daftarsubMenu as $dt2) {
+        $cek_accesssubmenu = $this->db->get_where('user_access_submenu', ['role_id'=>$role, 'submenu_id'=>$dt2['id']])->row_array();
+        if ($cek_accesssubmenu) {
+           if ($this->input->post('submenu'.$dt2['id'])) {
+            $data = [
+                'role_id' => $role,
+                'submenu_id' => $dt2['id']
+              ];
+              $this->db->where('id', $cek_accesssubmenu['id']);
+              $this->db->update('user_access_submenu', $data);
+          }else{
+            $this->db->where('id', $cek_accesssubmenu['id']);
+            $this->db->delete('user_access_submenu');
+          }
+
+        }else{
+          if ($this->input->post('submenu'.$dt2['id'])) {
+            $data = [
+                'role_id' => $role,
+                'submenu_id' => $dt2['id']
+              ];
+              // $this->db->where('id', $cek_accessmenu['id']);
+              $this->db->insert('user_access_submenu', $data);
+          }
+        }
+       }
+       $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Access Changed!</div>');
+       redirect('admin/roleaccess/'.$role);
     }
+    
     public function userlogin()
     {
         $data['title'] = 'Users';

@@ -23,7 +23,8 @@
       <div class="box-body">
 
         <?= $this->session->flashdata('message') ?>
-
+        <form method="post" action="<?= base_url('admin/update_role_access')?>">
+  <input type="hidden" name="role" value="<?= $role['id']?>">
         <table class="table table-hover">
           <thead>
             <tr>
@@ -40,7 +41,10 @@
                 <td><?= $m['menu']; ?></td>
                 <td>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" <?= check_access($role['id'], $m['id']); ?> data-role="<?= $role['id']; ?>" data-menu="<?= $m['id']; ?>">
+                    <!-- <input class="form-check-input" type="checkbox" <?= check_access($role['id'], $m['id']); ?> data-role="<?= $role['id']; ?>" data-menu="<?= $m['id']; ?>"> -->
+                    <?php $cek_accessmenu = $this->db->get_where('user_access_menu', ['role_id'=>$role['id'], 'menu_id'=>$m['id']])->num_rows();?>
+
+                    <input class="form-check" name="menu<?= $m['id']?>" type="checkbox" <?= $cek_accessmenu>0?'checked':'';?> >
                   </div>
                 </td>
               </tr>
@@ -51,7 +55,10 @@
                 <td><?= $sm['title']; ?></td>
                 <td>
                   <div class="form-check">
-                    <input class="form-check-inputsub" type="checkbox" <?= check_access_sub($role['id'], $sm['id']); ?> data-role="<?= $role['id']; ?>" data-submenu="<?= $sm['id']; ?>">
+                    <!-- <input class="form-check-inputsub" type="checkbox" <?= check_access_sub($role['id'], $sm['id']); ?> data-role="<?= $role['id']; ?>" data-submenu="<?= $sm['id']; ?>"> -->
+                    <?php $cek_accesssubmenu = $this->db->get_where('user_access_submenu', ['role_id'=>$role['id'], 'submenu_id'=>$sm['id']])->num_rows();?>
+
+                    <input class="form-check" name="submenu<?= $sm['id']?>" type="checkbox" <?= $cek_accesssubmenu>0?'checked':'';?> >
                   </div>
                 </td>
               </tr> 
@@ -61,6 +68,9 @@
             <?php endforeach; ?>
           </tbody>
         </table>
+        <button class="btn btn-primary btn-block">Update</button>
+        </form>
+        <br>
         <div class="row">
           <div class="col-lg-4">
             <a href="<?= base_url('admin/role') ?>" class="btn btn-success"><i class="fa fa-backward"></i> Kembali</a>
