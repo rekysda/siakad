@@ -49,7 +49,6 @@
         </div> -->
         <!-- <hr><hr> -->
         <?= $login_button ?>
-        Back !
         <!-- /.col -->
       </div>
     </form>
