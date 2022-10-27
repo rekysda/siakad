@@ -60,13 +60,9 @@ class Auth extends CI_Controller
 			redirect('user');
 		}else{
 			// jika tidak ada di database kita maka error atau insert ke database member dengan data email dari google
-			$this->session->set_flashdata('message', '
-			<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			Email belum terdaftar di Database...!
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-			</button></div>
-			');
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Warning!</strong> Email belum terdaftar.</div>');
 			redirect('login');
 				}	
 			}
