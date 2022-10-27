@@ -12,7 +12,7 @@
     <form class="user" method="post" action="<?= base_url('authppdb'); ?>">
       <div class="form-group has-feedback <?= form_error('noformulir') ? 'has-error' : '' ?>">
         <input type="noformulir" name="noformulir" value="<?= set_value('noformulir'); ?>" class="form-control" placeholder="noformulir">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
         <?= form_error('noformulir', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="form-group has-feedback <?= form_error('password') ? 'has-error' : '' ?>">

@@ -12,7 +12,7 @@
     <form class="user" method="post" action="<?= base_url('authguru'); ?>">
       <div class="form-group has-feedback <?= form_error('nip') ? 'has-error' : '' ?>">
         <input type="nip" name="nip" value="<?= set_value('nip'); ?>" class="form-control" placeholder="nip">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
         <?= form_error('nip', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="form-group has-feedback <?= form_error('password') ? 'has-error' : '' ?>">
