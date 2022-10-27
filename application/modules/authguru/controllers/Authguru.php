@@ -13,13 +13,67 @@ class Authguru extends CI_Controller
 	public function index()
 	{
 		if ($this->session->userdata('nip')) {
-			redirect('guru');
+			redirect('user');
 		}
-		$this->form_validation->set_rules('nip', 'nip', 'trim|required');
+	 if (options('forbidden') == '0') {
+		include_once APPPATH . "../vendor/autoload.php";
+		$this->load->model('LoginModel');
+	//	require APPPATH . 'vendor/google/google-api-php-client/vendor/autoload.php';
+		$google_client = new Google_Client();
+        $google_client->setClientId('780327326834-40029f0fvm9r6l7er9c4h4kdr0a44j8u.apps.googleusercontent.com'); //Define your ClientID
+        $google_client->setClientSecret('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'); //Define your Client Secret Key
+        $google_client->setRedirectUri(base_url('loginguru')); //Define your Redirect Uri
+        $google_client->addScope('email');
+        $google_client->addScope('profile');
+		if(isset($_GET["code"]))
+        {
+        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+
+                if(!isset($token["error"]))
+                {
+                    $google_client->setAccessToken($token['access_token']);
+                    $this->session->set_userdata('access_token', $token['access_token']);
+                    $google_service = new Google_Service_Oauth2($google_client);
+                    $data = $google_service->userinfo->get();
+					// Data dari Google
+					$first_name= $data['given_name'];
+                    $last_name  = $data['family_name'];
+                    $email_address = $data['email'];
+					$login_oauth_uid = $data['id'];
+					$google_picture = $data['picture'];
+
+		if($this->LoginModel->Is_already_register_email($email_address))
+		{
+			$this->db->set('login_oauth_uid', $login_oauth_uid);
+			$this->db->where('email',$email_address);
+			$this->db->update('m_pegawai');
+			// jika ada di database kita maka dilakukan session user
+			$user_details = $this->LoginModel->checkuserlogin($email_address);
+
+			$session_data['nip'] 	= $user_details->nip;
+			$session_data['role_id']	= '5';
+			$session_data['guru_id']	= $user_details->id;
+			$session_data['google_picture']	= $google_picture;
+			$this->session->set_userdata($session_data);
+			redirect('guru');
+		}else{
+			// jika tidak ada di database kita maka error atau insert ke database member dengan data email dari google
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Warning!</strong> Email belum terdaftar.</div>');
+			redirect('loginguru');
+				}	
+			}
+		}
+
+		$this->form_validation->set_rules('nip', 'NIP', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+
 		if ($this->form_validation->run() == false) {
-			$data['title'] = 'Pegawai Login';
+			$data['title'] = 'User Login';
 			$data['body_class'] = 'login-page';
+			$login_button = '<a href="'.$google_client->createAuthUrl().'" class="btn btn-google btn-user btn-block"> <i class="fa fa-google fa-fw"></i> Login with Google</a>';
+			$data['login_button'] = $login_button;
 			$this->load->view('themes/guru/auth/header', $data);
 			$this->load->view('login', $data);
 			$this->load->view('themes/guru/auth/footer');
@@ -27,6 +81,10 @@ class Authguru extends CI_Controller
 			//validasi sukses
 			$this->_login();
 		}
+	}else{
+		redirect('forbidden');
+	}
+
 	}
 
 	private function _login()

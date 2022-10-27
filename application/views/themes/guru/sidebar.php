@@ -5,7 +5,11 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="img-circle" alt="User Image">
+<?php if ($this->session->userdata('google_picture')) {?>
+<img src="<?= base_url('assets/images/googlelogo.png')?>"class="img-circle" alt="User Image">
+<?php }else{?>  
+<img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="img-circle" alt="User Image">
+<?php }?>                 
             </div>
             <div class="pull-left info">
                 <p><?php echo $user['nama_guru']; ?></p>

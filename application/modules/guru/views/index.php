@@ -1,4 +1,4 @@
-<
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -27,8 +27,11 @@
         <!-- Profile Image -->
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" alt="User profile picture">
-
+<?php if ($this->session->userdata('google_picture')) {?>
+<img class="profile-user-img img-responsive img-circle" src="<?= base_url('assets/images/googlelogo.png')?>" alt="User profile picture">
+<?php }else{?>  
+<img class="profile-user-img img-responsive img-circle" src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" alt="User profile picture">
+<?php }?>
             <h3 class="profile-username text-center"><?= $user['nama_guru']; ?></h3>
 
             <p class="text-muted text-center">

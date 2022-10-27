@@ -20,13 +20,23 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="user-image" alt="User Image">
+<?php if ($this->session->userdata('google_picture')) {?>
+<img src="<?= base_url('assets/images/googlelogo.png')?>"class="user-image" alt="User Image">
+<?php }else{?>  
+    <img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="user-image" alt="User Image">
+<?php }?>                        
+
                         <span class="hidden-xs"><?= $user['nama_guru']; ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="img-circle" alt="User Image">
+
+<?php if ($this->session->userdata('google_picture')) {?>
+<img src="<?= base_url('assets/images/googlelogo.png')?>"class="img-circle" alt="User Image">
+<?php }else{?>  
+<img src="<?= base_url('assets/images/pegawai/') . $user['image']; ?>" class="img-circle" alt="User Image">
+<?php }?>  
                             <p><small>Nama : <?= ($user['nama_guru']); ?></small>
                             <small>NIP : <?= ($user['nip']); ?></small>
                             </p>
