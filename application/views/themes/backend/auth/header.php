@@ -1,51 +1,53 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title><?= $title ?></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><?= $title; ?></title>
 
-    <link rel="shortcut icon" href="<?= base_url('assets/favicon.ico')?>">
+  <link rel="shortcut icon" href="<?= base_url('assets/favicon.ico')?>">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/bootstrap/dist/css/bootstrap.min.css') ?>">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/font-awesome/css/font-awesome.min.css') ?>">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/Ionicons/css/ionicons.min.css') ?>">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/dist/css/AdminLTE.min.css') ?>">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/dist/css/skins/_all-skins.min.css') ?>">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?= base_url('assets/themes/backend/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') ?>">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-    <!-- Bootstrap core CSS -->
-    <link href="<?= base_url('assets/themes/frontend/css/bootstrap.min.css') ?>" rel="stylesheet">
+  <!-- CKE -->
+  <script src="<?= base_url('assets/themes/backend/plugins/ckeditor/ckeditor.js') ?>"></script>
 
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <script type='text/javascript'>
-    function myFunction() {
-      var x = document.getElementById("myInput");
-      if (x.type === "password") {
-        x.type = "text";
-      } else {
-        x.type = "password";
-      }
+    body {
+    
+        background: url("<?= base_url('assets/themes/frontend/images/bg.jpg')?>") no-repeat center center fixed; 
+        background-size: cover;
     }
-</script>
+    </style>
     <!-- Custom styles for this template -->
-    <link href="<?= base_url('assets/themes/frontend/css/cover.css') ?>" rel="stylesheet">
+    <!-- <link href="<?= base_url('assets/themes/frontend/css/cover.css') ?>" rel="stylesheet"> -->
 </head>
 
-<body class="text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<body class="hold-transition sidebar-mini">
+  <!-- Site wrapper -->
+  <div class="wrapper">
