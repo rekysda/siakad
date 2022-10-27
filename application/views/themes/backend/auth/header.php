@@ -33,6 +33,16 @@
             }
         }
     </style>
+    <script type='text/javascript'>
+    function myFunction() {
+      var x = document.getElementById("myInput");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+</script>
     <!-- Custom styles for this template -->
     <link href="<?= base_url('assets/themes/frontend/css/cover.css') ?>" rel="stylesheet">
 </head>

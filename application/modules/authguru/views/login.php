@@ -16,12 +16,13 @@
         <?= form_error('nip', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="form-group has-feedback <?= form_error('password') ? 'has-error' : '' ?>">
-        <input type="password" name="password" value="<?= set_value('password'); ?>" class="form-control" placeholder="Password">
+        <input id='myInput' type="password" name="password" value="<?= set_value('password'); ?>" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         <?= form_error('password', '<div class="text-danger">', '</div>') ?>
       </div>
       <div class="row">
       <div class="col-xs-8">
+      <input type="checkbox" onclick="myFunction()"> Show Password </label>
       Forgot Password?<br>
       Please contact our School
         </div>
