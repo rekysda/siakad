@@ -4,11 +4,10 @@
     <a href="<?= base_url(); ?>"></a>
   </div>
   <!-- /.login-logo -->
-  <div class="login-box-body">
+  <?php if(get_m_options('is_ppdb_online')=='1'){?>
+    <div class="login-box-body">
     <p class="login-box-msg">Please user your Voucher and Password</p>
-
     <?= $this->session->flashdata('message'); ?>
-
     <form class="user" method="post" action="<?= base_url('authppdb'); ?>">
       <div class="form-group has-feedback <?= form_error('noformulir') ? 'has-error' : '' ?>">
         <input type="noformulir" name="noformulir" value="<?= set_value('noformulir'); ?>" class="form-control" placeholder="noformulir">
@@ -33,9 +32,15 @@
         <!-- /.col -->
       </div>
     </form>
-
-
   </div>
-  <!-- /.login-box-body -->
 </div>
+<?php }else{?>
+  <div class="login-box-body">
+  <center>
+    <span class="glyphicon glyphicon-info-sign" style="font-size: 8vh;"></span>
+    <h2>Saat ini PPDB Online dinonaktifkan</h2>
+    </center>
+    </div>
+<?php }?>
+  <!-- /.login-box-body -->
 <!-- /.login-box -->

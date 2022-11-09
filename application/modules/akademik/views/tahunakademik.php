@@ -34,9 +34,14 @@
               </div>
               <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
                 <label for="tahun">Tahun</label>
-                <input class="form-control" type="text" name="tahun" value="<?= set_value('tahun'); ?>" />
-                <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
-              </div>
+                <select name="tahun" id="tahun" class="form-control <?= form_error('tahun') ? 'is-invalid' : '' ?>">
+                  <?php foreach ($m_tahunppdb as $dt) : ?>
+                    <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $tahun_default['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
+                </div>
+
               <div class="form-group <?php echo form_error('semester') ? 'has-error' : '' ?>">
                 <label for="semester">Semester</label>
                 <input class="form-control" type="number" name="semester" value="<?= set_value('semester'); ?>" />

@@ -28,17 +28,10 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-3 control-label">Tahun Angkatan Default</label>
                         <div class="col-sm-9">
-                            <select name="tahun_default" id="tahun_default" class="form-control <?= form_error('tahun_default') ? 'is-invalid' : '' ?>">
-                                <?php
-                                $tahunn = (date("Y") + 1);
-                                for ($n = 2019; $n <= $tahunn; $n++) {
-                                    if ($tahun_default['value'] == $n) {
-                                        echo "<option value='$n' selected>$n</option>";
-                                    } else {
-                                        echo "<option value='$n'>$n</option>";
-                                    }
-                                }
-                                ?>
+                        <select name="tahun_default" id="tahun_default" class="form-control <?= form_error('tahun_default') ? 'is-invalid' : '' ?>">
+                                <?php foreach ($m_tahunppdb as $dt) : ?>
+                                <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $tahun_default['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <?= form_error('tahun_default', '<span class="help-block">', '</small>'); ?>
                         </div>
@@ -47,16 +40,9 @@
                         <label for="name" class="col-sm-3 control-label">Tahun PPDB Default</label>
                         <div class="col-sm-9">
                             <select name="tahun_ppdb_default" id="tahun_ppdb_default" class="form-control <?= form_error('tahun_ppdb_default') ? 'is-invalid' : '' ?>">
-                                <?php
-                                $tahunn = (date("Y") + 1);
-                                for ($n = 2019; $n <= $tahunn; $n++) {
-                                    if ($tahun_ppdb_default['value'] == $n) {
-                                        echo "<option value='$n' selected>$n</option>";
-                                    } else {
-                                        echo "<option value='$n'>$n</option>";
-                                    }
-                                }
-                                ?>
+                            <?php foreach ($m_tahunppdb as $dt) : ?>
+                                <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $tahun_ppdb_default['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <?= form_error('tahun_ppdb_default', '<span class="help-block">', '</small>'); ?>
                         </div>
@@ -73,10 +59,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
+                    <label for="name" class="col-sm-3 control-label">PPDB Online</label>
+                    <div class="col-sm-9">
                             <div class="checkbox">
                                 <label>
-                                    <input class="form-check-input" type="checkbox" value="1" name="is_ppdb_online" id="is_ppdb_online" <?= $is_ppdb_online['value'] == '1' ? 'checked' : ''; ?>> Is_PPDB_Online?
+                                    <input class="form-check-input" type="checkbox" value="1" name="is_ppdb_online" id="is_ppdb_online" <?= $is_ppdb_online['value'] == '1' ? 'checked' : ''; ?>>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">Preregistrasi Online</label>
+                    <div class="col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    <input class="form-check-input" type="checkbox" value="1" name="is_preregistrasi_online" id="is_preregistrasi_online" <?= $is_preregistrasi_online['value'] == '1' ? 'checked' : ''; ?>>
                                 </label>
                             </div>
                         </div>
@@ -92,6 +89,14 @@
                             <?= form_error('gelombang_ppdb_default', '<span class="help-block">', '</small>'); ?>
                         </div>
                     </div>
+                    <div class="form-group <?= form_error('gelombang_ppdb_default') ? 'has-error' : '' ?>">
+                    <label for="name" class="col-sm-3 control-label">Harga Formulir</label>
+                        <div class="col-sm-9">
+                        <input class="form-control <?php echo form_error('harga_formulir') ? 'is-invalid' : '' ?>" type="text" id="harga_formulir" name="harga_formulir" value="<?= $harga_formulir['value']; ?>" />
+                        <div class="invalid-feedback">
+                            <?= form_error('harga_formulir') ?>
+                        </div>
+                  </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">

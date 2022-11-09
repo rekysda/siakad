@@ -56,7 +56,7 @@ class Akademik extends CI_Controller
         $data['title'] = 'Tahun Akademik';
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
-
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         $this->db->order_by('tahun', 'desc');
         $this->db->order_by('semester', 'asc');
         $data['tahunakademik'] = $this->db->get('m_tahunakademik')->result_array();
@@ -95,6 +95,7 @@ activity_log($user,'Tambah TahunAkademik',$item);
         $data['title'] = 'Tahun Akademik';
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         $data['gettahun'] = $this->db->get_where('m_tahunakademik', ['id' =>
         $id])->row_array();
         $data['tahunakademik'] = $this->db->get('m_tahunakademik')->result_array();
@@ -329,11 +330,8 @@ activity_log($user,'Hapus Jalur',$item);
         $this->session->userdata('email')])->row_array();
 
         $data['tahunppdbdefault'] = $this->db->get_where('m_options', ['id' => '1'])->row_array();
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
 
-        $this->db->select('*');
-        $this->db->like('nama', 'Ganjil');
-        $this->db->from('m_tahunakademik');
-        $data['tahun'] = $this->db->get()->result_array();
         $data['gelombang'] = $this->db->get('m_gelombang')->result_array();
         $data['jalur'] = $this->db->get('m_jalur')->result_array();
         $this->db->select('`m_gelombang_jalur`.*,`m_gelombang`.nama as `gelombang`,`m_jalur`.nama as `jalur`');
@@ -397,7 +395,7 @@ activity_log($user,'Tambah Gelombang Jalur',$item);
         $data['title'] = 'Gelombang Jalur';
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
-
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         //    $data['tahun'] = $this->db->get('m_tahunakademik')->result_array();
         $data['getgelombangjalur'] = $this->db->get_where('m_gelombang_jalur', ['id' =>
         $id])->row_array();
@@ -574,6 +572,7 @@ activity_log($user,'Hapus Biaya',$item);
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
 
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         $data['tahunakademik'] = $this->db->get('m_tahunakademik')->result_array();
         $data['gelombangppdb'] = $this->db->get('m_gelombang')->result_array();
         $data['tahun_ppdb_default'] = $this->db->get_where('m_options', ['name' =>
@@ -586,11 +585,16 @@ activity_log($user,'Hapus Biaya',$item);
         'gelombang_ppdb_default'])->row_array();
         $data['tahun_default'] = $this->db->get_where('m_options', ['name' =>
         'tahun_default'])->row_array();
+        $data['is_preregistrasi_online'] = $this->db->get_where('m_options', ['name' =>
+        'is_preregistrasi_online'])->row_array();
+        $data['harga_formulir'] = $this->db->get_where('m_options', ['name' =>
+        'harga_formulir'])->row_array();
 
         $this->form_validation->set_rules('tahun_ppdb_default', 'tahun_ppdb_default', 'required');
         $this->form_validation->set_rules('tahun_akademik_default', 'tahun_akademik_default', 'required');
         $this->form_validation->set_rules('gelombang_ppdb_default', 'gelombang_ppdb_default', 'required');
         $this->form_validation->set_rules('tahun_default', 'tahun_default', 'required');
+        $this->form_validation->set_rules('harga_formulir', 'harga_formulir', 'required');
         if ($this->form_validation->run() == false) {
             $this->load->view('themes/backend/header', $data);
             $this->load->view('themes/backend/sidebar', $data);
@@ -619,7 +623,15 @@ activity_log($user,'Hapus Biaya',$item);
                 array(
                     'name' => 'tahun_default',
                     'value' => $this->input->post('tahun_default')
-                )
+                ),
+                array(
+                    'name' => 'is_preregistrasi_online',
+                    'value' => $this->input->post('is_preregistrasi_online')
+                ),
+                array(
+                    'name' => 'harga_formulir',
+                    'value' => $this->input->post('harga_formulir')
+                ),
             );
 
             $this->db->update_batch('m_options', $data, 'name');
@@ -687,7 +699,7 @@ activity_log($user,'Hapus Biaya',$item);
         $data['title'] = 'Kelas';
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
-
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         $data['tahun_default'] = $this->db->get_where('m_options', ['name' => 'tahun_default'])->row_array();
         $this->load->model('akademik_model', 'akademik_model');
         $data['getkelasAll'] = $this->akademik_model->getkelasAll();
@@ -746,7 +758,7 @@ activity_log($user,'Tambah Kelas',$item);
         $data['title'] = 'Kelas';
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
-
+        $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
         $data['tahun_default'] = $this->db->get_where('m_options', ['name' => 'tahun_default'])->row_array();
         $this->load->model('akademik_model', 'akademik_model');
         $data['getkelasbyId'] = $this->akademik_model->getkelasbyId($id);

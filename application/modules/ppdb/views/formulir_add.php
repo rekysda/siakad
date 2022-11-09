@@ -28,17 +28,10 @@
                     <div class="form-group">
                         <label for="name">Tahun PPDB*</label>
                         <select name="tahun_ppdb" id="tahun_ppdb" class="form-control <?= form_error('tahun_ppdb') ? 'is-invalid' : '' ?>">
-                            <option value="">== Tahun ==</option>
-<?php                       $tahunn = (date("Y")+1);
-                      for($n=2019; $n<=$tahunn; $n++){ 
-                        if ($tahun_ppdb_default == $n){
-                          echo "<option value='$n' selected>$n</option>";
-                        }else{
-                          echo "<option value='$n'>$n</option>";
-                        }
-                      } 
-                      ?> 
-                        </select>
+                  <?php foreach ($m_tahunppdb as $dt) : ?>
+                    <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $tahun_ppdb_default['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
                         <div class="invalid-feedback">
                             <?= form_error('tahun_ppdb') ?>
                         </div>

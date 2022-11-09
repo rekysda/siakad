@@ -28,20 +28,12 @@
           <div class="form-group <?= form_error('tahun_id') ? 'has-error' : '' ?>">
             <label for="name" class="col-sm-2 control-label">Tahun PPDB</label>
             <div class="col-sm-10">
-              <select name="tahun_id" id="tahun_id" class="form-control">
-                <option value="">== Tahun ==</option>
-                <?php
-                $tahunn = (date("Y") + 1);
-                for ($n = 2019; $n <= $tahunn; $n++) {
-                  if ($getgelombangjalur['tahun_id'] == $n) {
-                    echo "<option value='$n' selected>$n</option>";
-                  } else {
-                    echo "<option value='$n'>$n</option>";
-                  }
-                }
-                ?>
-              </select>
-              <?= form_error('tahun_id', '<span class="help-block">', '</small>'); ?>
+              <select name="tahun_id" id="tahun_id" class="form-control <?= form_error('tahun_id') ? 'is-invalid' : '' ?>">
+                  <?php foreach ($m_tahunppdb as $dt) : ?>
+                    <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $getgelombangjalur['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                <?= form_error('tahun_id', '<span class="help-block">', '</small>'); ?>
             </div>
           </div>
           <div class="form-group <?= form_error('gelombang_id') ? 'has-error' : '' ?>">

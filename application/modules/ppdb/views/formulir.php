@@ -28,9 +28,9 @@
           </a>
         </div>
       </div>
-      <div class="box-body">
-        <?= $this->session->flashdata('message') ?>
-
+<div class="box-body">
+<?= $this->session->flashdata('message') ?>
+<h4>Tahun PPDB Default <?= $tahun_ppdb_default['value']?></h4>
         <!-- Posts List -->
         <form method="POST" action="<?= base_url('ppdb/hapusformulir') ?>" enctype="multipart/form-data" class="form-inline">
           <table class='table table-hover' id="example1">

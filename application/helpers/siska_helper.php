@@ -430,3 +430,33 @@ function get_kelas_siswa_aktif($siswa_id)
     $sql        = $ci->db->insert('tb_log',$data);
 }
 
+function get_m_options($name)
+{
+    $ci = get_instance();
+    $ci->db->select('value');
+    $ci->db->from('m_options');
+    $ci->db->where('name', $name);
+    return $ci->db->get()->row()->value;
+}
+
+function no_wa($wa)
+{
+  $cek_no = substr($wa,0,1);
+ if ($cek_no=='0') {
+      return '62'.substr($wa,1);
+  }elseif($cek_no=='+'){
+      return ''.substr($wa,1);
+  }else{
+      return $wa;
+  }
+}
+
+function getjumlahterkirimemail($noformulir)
+{
+    $ci = get_instance();
+    $ci->db->select("count(noformulir) as value");
+    $ci->db->from('ppdb_kirimemail');
+    $ci->db->where('ppdb_kirimemail.noformulir', $noformulir);
+    return $ci->db->get()->row()->value;
+}
+

@@ -53,7 +53,7 @@
       </div>
       <div class="box-body">
         <div class="table-responsive">
-          <table class="table table-hover" id="dataTable">
+          <table class="table table-hover" id="example1">
             <thead>
               <tr>
                 <th>#</th>

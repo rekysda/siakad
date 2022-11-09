@@ -39,17 +39,9 @@
               <div class="form-group <?= form_error('tahun') ? 'has-error' : '' ?>">
                 <label for="name">Tahun Angkatan</label>
                 <select name="tahun" id="tahun" class="form-control <?= form_error('tahun') ? 'is-invalid' : '' ?>">
-                  <option value="">== Tahun ==</option>
-                  <?php
-                  $tahunn = (date("Y") + 1);
-                  for ($n = 2019; $n <= $tahunn; $n++) {
-                    if ($tahun_default['value'] == $n) {
-                      echo "<option value='$n' selected>$n</option>";
-                    } else {
-                      echo "<option value='$n'>$n</option>";
-                    }
-                  }
-                  ?>
+                <?php foreach ($m_tahunppdb as $dt) : ?>
+                    <option value="<?= $dt['nama']; ?>" <?= $dt['nama'] == $tahun_default['value'] ? ' selected="selected"' : ''; ?>><?= $dt['nama']; ?></option>
+                    <?php endforeach; ?>
                 </select>
                 <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
               </div>

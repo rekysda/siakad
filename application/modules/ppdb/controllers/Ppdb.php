@@ -618,7 +618,10 @@ class Ppdb extends CI_Controller
     $this->session->userdata('email')])->row_array();
 
     $this->load->model('ppdb_model', 'ppdb_model');
-    $data['formulir'] = $this->db->get('ppdb_formulir')->result_array();
+    $data['tahun_ppdb_default'] = $this->db->get_where('m_options', ['name' =>
+    'tahun_ppdb_default'])->row_array();
+    $data['formulir'] = $this->db->get_where('ppdb_formulir', ['tahun_ppdb	' =>
+    $data['tahun_ppdb_default']['value']])->result_array();
     // Load view
     $this->load->view('themes/backend/header', $data);
     $this->load->view('themes/backend/javascript', $data);
@@ -634,12 +637,9 @@ class Ppdb extends CI_Controller
     $data['title'] = 'Formulir';
     $data['user'] = $this->db->get_where('user', ['email' =>
     $this->session->userdata('email')])->row_array();
-
-
-    $this->db->select('*');
-    $this->db->like('nama', 'Ganjil');
-    $this->db->from('m_tahunakademik');
-    $data['tahun'] = $this->db->get()->result_array();
+    $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
+    $data['tahun_ppdb_default'] = $this->db->get_where('m_options', ['name' =>
+    'tahun_ppdb_default'])->row_array();
 
     $this->form_validation->set_rules('formulirawal', 'formulirawal', 'required|is_unique[user_menu.menu]', ['is_unique' => 'This number has already registered']);
     $this->form_validation->set_rules('formulirakhir', 'formulirakhir', 'required|is_unique[user_menu.menu]', ['is_unique' => 'This number has already registered']);
@@ -707,10 +707,7 @@ class Ppdb extends CI_Controller
     $data['getformulir'] = $this->db->get_where('ppdb_formulir', ['id' =>
     $id])->row_array();
 
-    $this->db->select('*');
-    $this->db->like('nama', 'Ganjil');
-    $this->db->from('m_tahunakademik');
-    $data['tahun'] = $this->db->get()->result_array();
+    $data['m_tahunppdb'] = $this->db->get('m_tahunppdb')->result_array();
     $data['getstatus'] = $this->db->get('ppdb_status_formulir')->result_array();
 
 
@@ -1780,6 +1777,335 @@ class Ppdb extends CI_Controller
     $orientation = 'potrait';
     pdf_create($html, $filename, $paper, $orientation);
   }
+
+  // preregistrasi
+public function preregistrasi()
+{
+  $data['title'] = 'Preregistrasi';
+  $data['user'] = $this->db->get_where('user', ['email' =>
+  $this->session->userdata('email')])->row_array();
+  // Load view 
+    if ($this->session->userdata('tanggalmulai') AND $this->session->userdata('tanggalakhir')) {
+    $tanggalmulai = $this->session->userdata('tanggalmulai');
+    $tanggalakhir = $this->session->userdata('tanggalakhir');
+    $data['tanggalmulai']=$tanggalmulai;
+    $data['tanggalakhir']=$tanggalakhir;
+  }else{
+    $tanggalmulai = date('Y-m-01');
+    $tanggalakhir = date('Y-m-d');
+    $data['tanggalmulai']=date('Y-m-01');
+    $data['tanggalakhir']=date('Y-m-d');
+  }
+    $this->load->model('ppdb_model', 'ppdb_model');
+    $this->db->select('`ppdb_preregistrasi`.*,`ppdb_formulir`.password');
+    $this->db->from('ppdb_preregistrasi'); 
+    $this->db->where('ppdb_preregistrasi.tanggal>=',$tanggalmulai); 
+    $this->db->where('ppdb_preregistrasi.tanggal<=',$tanggalakhir); 
+    $this->db->join('ppdb_formulir', 'ppdb_formulir.noformulir = ppdb_preregistrasi.noformulir', 'left');
+    $data['preregistrasi'] = $this->db->get()->result_array();
+    $this->load->view('themes/backend/header', $data);
+    $this->load->view('themes/backend/javascript', $data);
+    $this->load->view('themes/backend/sidebar', $data);
+    $this->load->view('themes/backend/topbar', $data);
+    $this->load->view('preregistrasi', $data);
+    $this->load->view('themes/backend/footer');
+    $this->load->view('themes/backend/footerajax');
+
+}
+
+public function filterpreregistrasi()
+{
+  $tanggalmulai = $this->input->post('tanggalmulai');
+  $tanggalakhir = $this->input->post('tanggalakhir');
+  $this->session->set_userdata('tanggalmulai', $tanggalmulai);
+  $this->session->set_userdata('tanggalakhir', $tanggalakhir);
+  redirect($_SERVER[HTTP_REFERER]);
+}
+
+public function kirimnotifemail($id)
+{
+////////////
+$smtp_user = $this->db->get_where('options', ['name' =>
+'smtp_user'])->row_array();
+$smtp_user = $smtp_user['value'];
+$smtp_pass = $this->db->get_where('options', ['name' =>
+'smtp_pass'])->row_array();
+$smtp_pass = $smtp_pass['value'];
+$smtp_port = $this->db->get_where('options', ['name' =>
+'smtp_port'])->row_array();
+$smtp_port = $smtp_port['value'];
+$smtp_host = $this->db->get_where('options', ['name' =>
+'smtp_host'])->row_array();
+$smtp_host = $smtp_host['value'];
+///////////
+$this->db->select('`ppdb_preregistrasi`.*,`ppdb_formulir`.password');
+$this->db->from('ppdb_preregistrasi');
+$this->db->join('ppdb_formulir', 'ppdb_formulir.noformulir = ppdb_preregistrasi.noformulir', 'left');
+$this->db->where('ppdb_preregistrasi.id',$id);
+$data['preregistrasi'] = $this->db->get()->row_array();
+$emailtujuan = $data['preregistrasi']['email'];
+$username = $data['preregistrasi']['noformulir'];
+$password = $data['preregistrasi']['password'];
+$emailtujuan=$data['preregistrasi']['email'];
+$config = [
+'protocol'  => 'smtp',
+'smtp_host' => $smtp_host,
+'smtp_user' => $smtp_user,
+'smtp_pass' => $smtp_pass,
+'smtp_port' => $smtp_port,
+'mailtype'  => 'html',
+'charset'   => 'utf-8',
+'newline'   => "\r\n"
+];
+$tanggalskrg=date('d/m/Y H:i:s');
+$ipaddress = $this->input->ip_address();
+$pesan_ppdb = 'Alamat isi Biodata klik <a href="'.base_url('loginppdb').'">Disini</a> ';
+$this->load->library('email');
+$this->email->initialize($config);
+$this->email->from($smtp_user, 'Web Administrator');
+$this->email->to($emailtujuan);
+$this->email->subject('Login PPDB Username Password '.$tanggalskrg);
+$this->email->message('
+'.$pesan_ppdb.'<br>
+Berikut akun yang digunakan untuk Login :<br>
+Username :'.$username.'<br>
+Password :'.$password.'<br>  
+<br>
+Whatsapp Official PPDB<br>
+<br>');
+$this->email->send();
+//kirimemail
+$data = [
+'noformulir' => $username,
+'tanggal' => date('Y-m-d H:i:s')
+ ];
+ $this->db->insert('ppdb_kirimemail', $data);
+//kirimemail  
+$this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data Sent '.$email.' !</div>');
+  redirect('ppdb/preregistrasi');
+}
+
+public function hapuspreregistrasi()
+{
+  $check = $this->input->post('check');
+  if ($check <> '') {
+    $this->db->where_in('id', $check);
+    $this->db->delete('ppdb_preregistrasi');
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data deleted !</div>');
+  }
+  //log activity
+  //$data['table'] = $this->db->get_where('ppdb_siswa', ['id' => $id])->row_array();
+  $user = $this->session->userdata('email');
+  $item = '';
+  activity_log($user, 'Hapus Preregistrasi', $item);
+  //end log
+  redirect('ppdb/preregistrasi');
+}
+
+public function editpreregistrasi($id)
+{
+  $data['title'] = 'Preregistrasi';
+  $data['user'] = $this->db->get_where('user', ['email' =>
+  $this->session->userdata('email')])->row_array();
+  $data['getpreregistrasi'] = $this->db->get_where('ppdb_preregistrasi', ['id' =>
+  $id])->row_array();
+  $data['tahun_ppdb'] = $this->db->get('m_tahunppdb')->result_array();
+  $tahun_aktif = $this->db->get_where('m_options', ['name'=>'tahun_ppdb_default'])->row_array();
+  
+  $data['formulir'] = $this->db->query("SELECT * FROM ppdb_formulir
+  WHERE ppdb_formulir.tahun_ppdb = '".$tahun_aktif['value']."'
+  AND `ppdb_formulir`.noformulir NOT IN 
+  (SELECT ppdb_preregistrasi.noformulir FROM ppdb_preregistrasi)")->result_array();
+
+  $this->form_validation->set_rules('nama', 'nama', 'required');
+  $this->form_validation->set_rules('asalsekolah', 'asalsekolah','required');
+  $this->form_validation->set_rules('email', 'email','required|valid_email');
+  $this->form_validation->set_rules('noformulir', 'noformulir','required|is_unique[ppdb_preregistrasi.noformulir]');
+  if ($this->form_validation->run() == false) {
+      $this->load->view('themes/backend/header', $data);
+      $this->load->view('themes/backend/sidebar', $data);
+      $this->load->view('themes/backend/topbar', $data);
+      $this->load->view('editpreregistrasi', $data);
+      $this->load->view('themes/backend/footer');
+      $this->load->view('themes/backend/footerajax');
+  } else {
+      $data = [
+          'nama' => $this->input->post('nama'),
+          'asalsekolah' => $this->input->post('asalsekolah'),
+          'email' => $this->input->post('email'),
+          'noformulir' => $this->input->post('noformulir'),
+          'buktibayar' => $this->input->post('status_bayar'),
+      ];
+      $this->db->where('id', $id);
+      $this->db->update('ppdb_preregistrasi', $data);
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data Saved !</div>');
+      redirect('ppdb/preregistrasi');
+  }
+}
+
+// TAHUN 
+public function tahunppdb()
+{ 
+    $data['title'] = 'Tahun PPDB';
+    $data['user'] = $this->db->get_where('user', ['email' =>
+    $this->session->userdata('email')])->row_array();
+    $this->db->order_by('nama', 'asc');
+    $data['tahun'] = $this->db->get('m_tahunppdb')->result_array();
+    $this->form_validation->set_rules('nama', 'nama', 'required|is_unique[m_tahunppdb.nama]', [
+        'is_unique' => 'has already registered'
+    ]);
+    if ($this->form_validation->run() == false) {
+        $this->load->view('themes/backend/header', $data);
+        $this->load->view('themes/backend/sidebar', $data);
+        $this->load->view('themes/backend/topbar', $data);
+        $this->load->view('tahunppdb', $data);
+        $this->load->view('themes/backend/footer');
+        $this->load->view('themes/backend/footerajax');
+    } else {
+        $data = [
+            'nama' => $this->input->post('nama')
+        ];
+        $this->db->insert('m_tahunppdb', $data);
+//log act
+//$data['user'] = $this->db->get_where('user_role', ['id' => $id])->row_array();
+$user=$this->session->userdata('email');
+$item=$this->input->post('nama');
+activity_log($user,'Tambah Tahun PPDB',$item);
+//end log  
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data Saved !</div>');
+        redirect('ppdb/tahunppdb');
+    }
+}
+
+public function edittahunppdb($id)
+{
+    $data['title'] = 'Tahun PPDB';
+    $data['user'] = $this->db->get_where('user', ['email' =>
+    $this->session->userdata('email')])->row_array();
+    $data['gettahun'] = $this->db->get_where('m_tahunppdb', ['id' =>
+    $id])->row_array();
+    $this->form_validation->set_rules('nama', 'nama', 'required');
+    if ($this->form_validation->run() == false) {
+        $this->load->view('themes/backend/header', $data);
+        $this->load->view('themes/backend/sidebar', $data);
+        $this->load->view('themes/backend/topbar', $data);
+        $this->load->view('edittahunppdb', $data);
+        $this->load->view('themes/backend/footer');
+        $this->load->view('themes/backend/footerajax');
+    } else {
+        $data = [
+            'nama' => $this->input->post('nama')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('m_tahunppdb', $data);
+//log act
+//$data['user'] = $this->db->get_where('user_role', ['id' => $id])->row_array();
+$user=$this->session->userdata('email');
+$item=$this->input->post('nama');
+activity_log($user,'Edit Tahun PPDB',$item);
+//end log  
+        $this->session->set_flashdata(
+            'message',
+            '<div class="alert alert-success" role"alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                Data Saved !
+            </div>'
+        );
+        redirect('ppdb/tahunppdb');
+    }
+}
+
+public function hapustahunppdb($id)
+{
+    //log act
+$data['table'] = $this->db->get_where('m_tahunppdb', ['id' => $id])->row_array();
+$user=$this->session->userdata('email');
+$item=$data['table']['nama'];
+activity_log($user,'Hapus Tahun PPDB',$item);
+//end log
+    $this->db->where('id', $id);
+    $this->db->delete('m_tahunppdb');
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data deleted !</div>');
+    redirect('ppdb/tahunppdb');
+}
+
+public function kirimnotifemailva($id)
+      {
+    ////////////
+    $smtp_user = $this->db->get_where('options', ['name' =>
+    'smtp_user'])->row_array();
+    $smtp_user = $smtp_user['value'];
+    $smtp_pass = $this->db->get_where('options', ['name' =>
+    'smtp_pass'])->row_array();
+    $smtp_pass = $smtp_pass['value'];
+    $smtp_port = $this->db->get_where('options', ['name' =>
+    'smtp_port'])->row_array();
+    $smtp_port = $smtp_port['value'];
+    $smtp_host = $this->db->get_where('options', ['name' =>
+    'smtp_host'])->row_array();
+    $smtp_host = $smtp_host['value'];
+    ///////////
+    $this->db->select('`ppdb_preregistrasi`.*,`ppdb_formulir`.password');
+    $this->db->from('ppdb_preregistrasi');
+    $this->db->join('ppdb_formulir', 'ppdb_formulir.noformulir = ppdb_preregistrasi.noformulir', 'left');
+    $this->db->where('ppdb_preregistrasi.id',$id);
+    $data['preregistrasi'] = $this->db->get()->row_array();
+    $emailtujuan = $data['preregistrasi']['email'];
+    $username = $data['preregistrasi']['noformulir'];
+    $emailtujuan=$data['preregistrasi']['email'];
+    $config = [
+      'protocol'  => 'smtp',
+      'smtp_host' => $smtp_host,
+      'smtp_user' => $smtp_user,
+      'smtp_pass' => $smtp_pass,
+      'smtp_port' => $smtp_port,
+      'mailtype'  => 'html',
+      'charset'   => 'utf-8',
+      'newline'   => "\r\n"
+    ];
+    $ipaddress = $this->input->ip_address();
+    $tanggalskrg=date('d/m/Y H:i:s');
+    $this->load->library('email');
+    $this->email->initialize($config);
+      $this->email->from($smtp_user, 'Web Administrator');
+      $this->email->to($emailtujuan);
+      $this->email->subject('Info Pembayaran Formulir '.$tanggalskrg);
+      $this->email->message('
+      Berikut kami sampaikan Pembayaran Formulir dapat dilakukan melalui Bank dengan nomor Virtual Account sebagai berikut : 
+      Nomor Virtual Account : 123-456-'.$username.'<br>
+      <br>
+    Silahkan Melakukan Pembayaran pada nomor Virtual Account tersebut
+        ');
+    $this->email->send();
+    //kirimemail
+    $data = [
+      'noformulir' => $username,
+      'tanggal' => date('Y-m-d H:i:s')
+       ];
+       $this->db->insert('ppdb_kirimva', $data);
+     //kirimemail  
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data Sent '.$email.' !</div>');
+        redirect('ppdb/preregistrasi');
+      }
+
+      public function ubahstatusbayar($id)
+      {
+        $cek_status_bayar = $this->db->get_where('ppdb_preregistrasi', ['id'=>$id])->row_array();
+
+        if ($cek_status_bayar['status_bayar']=='UNPAID') {
+          $data=[
+            'status_bayar'=> 'PAID',
+          ];
+        }else{
+          $data=[
+            'status_bayar'=> 'UNPAID',
+          ];
+        }
+        $this->db->where('id', $id);
+        $this->db->update('ppdb_preregistrasi', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Data Saved !</div>');
+         redirect('ppdb/preregistrasi');
+      }
   //end
 
 }
