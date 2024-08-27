@@ -28,12 +28,12 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-        </div>
-        
+<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+<a class="btn btn-danger btn-block btn-flat" href="<?= base_url()?>">Kembali</a>
+        </div>   
        <row>
         <div class="col-xs-12">
-        <?= $login_button ?>
+        <!-- <?= $login_button ?> -->
         </div>
         </row>
         <!-- /.col -->

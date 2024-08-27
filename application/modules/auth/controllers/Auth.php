@@ -189,7 +189,6 @@ class Auth extends CI_Controller
 		'smtp_port'])->row_array();
 		$smtp_port = $smtp_port['value'];
 		///////////
-
 		$config = [
 			'protocol'  => 'smtp',
 			'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -197,14 +196,14 @@ class Auth extends CI_Controller
 			'smtp_pass' => $smtp_pass,
 			'smtp_port' => $smtp_port,
 			'mailtype'  => 'html',
-			'charset'   => 'utf-8',
+			'charset'   => 'iso-8859-1',
 			'newline'   => "\r\n"
 		];
 		$this->load->library('email');
 		$this->email->initialize($config);
 		if ($type == 'verify') {
 
-			$this->email->from('admin@admin.com', 'Web Administrator');
+			$this->email->from('rekysmtp@admin.com', 'Web Administrator');
 			$this->email->to($this->input->post('email'));
 			$this->email->subject('Account Verifycation!');
 			$this->email->message('Click this link to verify your account:
@@ -212,7 +211,7 @@ class Auth extends CI_Controller
 				');
 		} else if ($type == 'forgot') {
 
-			$this->email->from('admin@admin.com', 'Web Administrator');
+			$this->email->from('rekysmtp@admin.com', 'Web Administrator');
 			$this->email->to($this->input->post('email'));
 			$this->email->subject('Reset your Password!');
 			$this->email->message('Click this link to reset your password:

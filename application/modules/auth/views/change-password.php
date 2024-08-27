@@ -1,7 +1,7 @@
 <!-- Login Baru -->
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?= base_url(); ?>"><b>Change</b> Password!</a>
+  <p style="color:white;"><b>Change</b> Password!</p>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

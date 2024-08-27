@@ -1,6 +1,6 @@
 <div class="register-box">
   <div class="register-logo">
-    <a href="<?= base_url(); ?>"><b>Forgot</b> your Password ?</a>
+  <p style="color:white;"><b>Forgot</b> your Password ?</p>
   </div>
 
   <div class="register-box-body">
