@@ -9,7 +9,7 @@ class Telegram extends CI_Controller
   {
     parent::__construct();
     is_logged_in();
-    $apitoken='7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI';
+    $this->$apitoken='7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI';
   }
 
  public function setting()
@@ -17,6 +17,7 @@ class Telegram extends CI_Controller
     $data['title'] = 'Tele Setting';
     $data['user'] = $this->db->get_where('user', ['email' =>
     $this->session->userdata('email')])->row_array();
+    $data['apitoken']=$this->$apitoken;
     $this->load->view('themes/backend/header', $data);
     $this->load->view('themes/backend/sidebar', $data);
     $this->load->view('themes/backend/topbar', $data);
@@ -34,7 +35,7 @@ class Telegram extends CI_Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.telegram.org/bot'.$apitoken.'/getUpdates',
+          CURLOPT_URL => 'https://api.telegram.org/bot7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI/getUpdates',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -66,7 +67,7 @@ class Telegram extends CI_Controller
      $curl = curl_init();
 
      curl_setopt_array($curl, array(
-       CURLOPT_URL => 'https://api.telegram.org/bot'.$apitoken.'/setWebhook?url=',
+       CURLOPT_URL => 'https://api.telegram.org/bot7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI/setWebhook?url=',
        CURLOPT_RETURNTRANSFER => true,
        CURLOPT_ENCODING => '',
        CURLOPT_MAXREDIRS => 10,
