@@ -536,5 +536,48 @@ I am at least PHP version 7.2.5, my version: ' . PHP_VERSION .'</div>';
 			$this->load->view('themes/backend/auth/footer');
 		}	
 	}
+
+	public function forgotPasswordTele()
+	{
+		is_forgotpassword_active();
+		$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+		if ($this->form_validation->run() == false) {
+			$data['title'] = 'Forgot Password';
+			$data['body_class'] = 'register-page';
+			$this->load->view('themes/backend/auth/header', $data);
+			$this->load->view('forgot-password-tele');
+			$this->load->view('themes/backend/auth/footer');
+		} else {
+			$email = $this->input->post('email');
+			$user = $this->db->get_where('user', ['email' => $email, 'is_active' => 1])->row_array();
+			if ($user) {
+				//siapkan token
+				$token =  random_string('alnum', 32);
+				$user_token = [
+					'email' => $email,
+					'token' => $token,
+					'date_created' => time()
+				];
+				$this->db->insert('user_token', $user_token);
+
+				$datauser = $this->db->get_where('telegram_autobot', ['email' =>
+				$email])->row_array();
+				$chatID = $datauser['chat_id'];
+
+				$message='Click this link to reset your password: Link [URL](https://www.google.co.id/
+				?email=' . $this->input->post('email') . '&token=' . $token . ')';
+				// $message='Click this link to reset your password:
+				// ' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . $token . '';
+				getkirimpesan($chatID,$message);				
+
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">Please check your telegram to reset your password!</div>');
+				redirect('auth');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role"alert">
+			Telegram is not registered or activated !</div>');
+				redirect('auth/forgotpasswordtele');
+			}
+		}
+	}
 	//end class
 }

@@ -9,7 +9,7 @@ class Telegram extends CI_Controller
   {
     parent::__construct();
     is_logged_in();
-    $this->$apitoken='7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI';
+    $this->load->helper('telegram');
   }
 
  public function setting()
@@ -17,7 +17,10 @@ class Telegram extends CI_Controller
     $data['title'] = 'Tele Setting';
     $data['user'] = $this->db->get_where('user', ['email' =>
     $this->session->userdata('email')])->row_array();
-    $data['apitoken']=$this->$apitoken;
+    $telegram_api_token = options('telegram_api_token');
+    $telegram_master = options('telegram_master');
+    $data['telegram_api_token']=$telegram_api_token;
+    $data['telegram_master']=$telegram_master;
     $this->load->view('themes/backend/header', $data);
     $this->load->view('themes/backend/sidebar', $data);
     $this->load->view('themes/backend/topbar', $data);
@@ -31,11 +34,25 @@ class Telegram extends CI_Controller
       $data['title'] = 'Tele CekUpdate';
       $data['user'] = $this->db->get_where('user', ['email' =>
       $this->session->userdata('email')])->row_array();
+      $telegram_api_token = options('telegram_api_token');
+      $telegram_master = options('telegram_master');
         // Load the curl library
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //   CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?url=',
+        //   CURLOPT_RETURNTRANSFER => true,
+        //   CURLOPT_ENCODING => '',
+        //   CURLOPT_MAXREDIRS => 10,
+        //   CURLOPT_TIMEOUT => 0,
+        //   CURLOPT_FOLLOWLOCATION => true,
+        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //   CURLOPT_CUSTOMREQUEST => 'GET',
+        // ));
+        // $response = curl_exec($curl);
+        // curl_close($curl);
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.telegram.org/bot7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI/getUpdates',
+          CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/getUpdates',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -46,12 +63,31 @@ class Telegram extends CI_Controller
         ));
         
         $response = curl_exec($curl);
+        $data['response'] = $response;
         curl_close($curl);
-        $data['response'] =$response;
         $json2 = json_encode(json_decode($response), JSON_PRETTY_PRINT); 
         $data['response2'] = '<pre>' . $json2 . '</pre>'; 
-        
         curl_close($curl);
+        $json3 = json_decode($response, TRUE);
+        foreach ($json3['result'] as $dt) : 
+          $update_id=$dt['update_id'];
+          $chat_id = $dt['message']['chat']['id'];
+          $text = $dt['message']['text'];
+          $username = $dt['message']['chat']['username'];
+          $datas = explode(" " , $text);
+          if($datas[0]=='daftar'){
+          $jumlahdata = cekchatID($chat_id);
+          if($jumlahdata=='0'){
+            $datax = [
+              'update_id' => $update_id,
+              'chat_id' => $chat_id,
+              'text' => $text,
+              'usernametele' => $username
+               ];
+               $this->db->insert('telegram_autobot', $datax);
+          }
+        }
+        endforeach;       
         $this->load->view('themes/backend/header', $data);
         $this->load->view('themes/backend/sidebar', $data);
         $this->load->view('themes/backend/topbar', $data);
@@ -63,11 +99,12 @@ class Telegram extends CI_Controller
       
  public function delete_webhook()
  {
+  $telegram_api_token = options('telegram_api_token');
+  $telegram_master = options('telegram_master');
      // Load the curl library
      $curl = curl_init();
-
      curl_setopt_array($curl, array(
-       CURLOPT_URL => 'https://api.telegram.org/bot7509304273:AAGkmKV7KgO2nSFWfh_q3tm4rq0hJxEC_EI/setWebhook?url=',
+       CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?remove',
        CURLOPT_RETURNTRANSFER => true,
        CURLOPT_ENCODING => '',
        CURLOPT_MAXREDIRS => 10,
@@ -80,5 +117,49 @@ class Telegram extends CI_Controller
      curl_close($curl);
      redirect('telegram/cekupdate');
     // echo $response;
+   }
+
+   public function kirimpesan()
+   {
+     $data['user'] = $this->db->get_where('user', ['email' =>
+     $this->session->userdata('email')])->row_array();
+     $telegram_api_token = options('telegram_api_token');
+     $telegram_master = options('telegram_master');
+     $message = $this->input->post('pesan');
+     $chatID = $this->input->post('chat_id');
+     $url = "https://api.telegram.org/bot" . $telegram_api_token . "/sendMessage";
+     $data = ['chat_id' => $chatID, 'text' => $message, 'parse_mode' => 'HTML'];
+     $ch = curl_init();
+     curl_setopt($ch, CURLOPT_URL, $url);
+     curl_setopt($ch, CURLOPT_POST, true);
+     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ 
+     $response = curl_exec($ch);
+ 
+ 
+     // here you can Handle cURL error
+     if (curl_errno($ch)) {
+         $error_msg = curl_error($ch);
+         curl_close($ch);
+         return json_encode(array('error' => $error_msg));
+     }
+ 
+     $http_code_message = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+     if ($http_code_message >= 200 && $http_code_message < 300) {
+         $result = json_decode($response, true);
+         if ($result['ok']) {
+             $result = json_encode(array('success' => $result['ok']));
+         } else {
+             $result = json_encode(array('error' => $result));
+         }
+     } else {
+         // And here you can Handle HTTP error
+         $result = json_encode(array('error' => 'HTTP error ' . $http_code_message));
+     }
+ 
+     curl_close($ch);
+    // echo $result;
+     redirect('telegram/cekupdate');
    }
 }

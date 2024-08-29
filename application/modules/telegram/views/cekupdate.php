@@ -20,7 +20,8 @@
         <h3 class="box-title"><?= $title; ?></h3>
       </div>
       <div class="box-body">
-<a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a>
+<!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a> -->
+###<?= $this->session->flashdata('message') ?>
       <hr>
       <table class="table table-hover" id='example1'>
             <thead>
@@ -29,27 +30,68 @@
                 <th>date</th>
                 <th>text</th>
                 <th>chat_id</th>
-                <th>name</th>
+                <th>@usernametele</th>
+                <th>Email</th>
+                <th>aksi</th>
               </tr>
             </thead>
             <tbody>
               <?php
                 $json = json_decode($response, TRUE);
+                $no='1';
                 foreach ($json['result'] as $dt) : 
 $update_id=$dt['update_id'];
 $chat_id=$dt['message']['chat']['id'];
 $first_name=$dt['message']['chat']['first_name'];
 $last_name=$dt['message']['chat']['last_name'];
+$usernametele=$dt['message']['chat']['username'];
 $date=$dt['message']['date'];
 $text=$dt['message']['text'];
+$data = explode(" " , $text);
+if($data[0]=='daftar'){
                 ?>
                 <tr>
-                  <td><?= $update_id; ?></td>
-                  <td><?=$date?></td>
+                  <td><?= $no; ?></td>
+                  <td><?= date('d-M-Y H:i:s', $date);?></td>
                   <td><?=$text?></td>
                   <td><?=$chat_id?></td>
-                  <td><?=$first_name?><?=$last_name?></td>
-                </tr>
+                  <td>@<?=$usernametele?></td>
+                  <td></td>
+                  <td>
+<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exampleModal<?= $no; ?>">
+  chatt
+</button>
+</td>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal<?= $no; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Kirim Pesan <?=$date?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="<?= base_url('telegram/kirimpesan')?>" method="post">
+              <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
+                <label for="name">Isi Pesan</label>
+                <input class="form-control" type="text" name="pesan" value="Terima kasih telah melakukan pendafatran, permintaan anda akan kami proses 1x24 jam" required/>
+                <?= form_error('pesan', '<span class="help-block">', '</small>'); ?>
+              </div>
+      </div>
+      <div class="modal-footer">
+      <input class="form-control" type="hidden" name="chat_id" value="<?=$chat_id?>"/>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+</tr>
+<?php $no++;?>
+<?php }?>
               <?php endforeach; ?>
             </tbody>
           </table>

@@ -22,12 +22,12 @@
       <div class="box-body">
       <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
                 <label for="name">Token</label>
-                <input class="form-control" type="text" name="token" value="<?= $apitoken?>"readonly />
+                <input class="form-control" type="text" name="token" value="<?= $telegram_api_token?>"readonly />
                 <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
               </div>
       <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
         <label for="name">Phone</label>
-        <input class="form-control" type="text" name="token" value="+628885465802"readonly />
+        <input class="form-control" type="text" name="telegram_master" value="<?=$telegram_master?>"readonly />
         <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
       </div>
 

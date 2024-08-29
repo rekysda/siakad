@@ -27,7 +27,7 @@
         <input type="checkbox" onclick="myFunction()"> Show Password </label><br>
           <?php if (options('forgot_password') == '1') {
             ?>
-            <a href="<?= base_url('auth/forgotPassword'); ?>">Forgot Password?</a><br>
+            <a href="<?= base_url('auth/forgotPassword'); ?>">Forgot Password Send Email</a><br> <a href="<?= base_url('auth/forgotPasswordTele'); ?>">Forgot Password Send Telegram</a>
           <?php
         }
         ?>
