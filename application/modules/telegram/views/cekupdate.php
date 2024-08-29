@@ -21,7 +21,7 @@
       </div>
       <div class="box-body">
 <!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a> -->
-###<?= $this->session->flashdata('message') ?>
+<?= $this->session->flashdata('message') ?>
       <hr>
       <table class="table table-hover" id='example1'>
             <thead>
@@ -39,14 +39,13 @@
               <?php
                 $json = json_decode($response, TRUE);
                 $no='1';
-                foreach ($json['result'] as $dt) : 
-$update_id=$dt['update_id'];
-$chat_id=$dt['message']['chat']['id'];
-$first_name=$dt['message']['chat']['first_name'];
-$last_name=$dt['message']['chat']['last_name'];
-$usernametele=$dt['message']['chat']['username'];
-$date=$dt['message']['date'];
-$text=$dt['message']['text'];
+                foreach ($telegram_autobot as $dt) : 
+
+$text=$dt['text'];
+$date=$dt['date'];
+$chat_id=$dt['chat_id'];
+$usernametele=$dt['usernametele'];
+$email=$dt['email'];
 $data = explode(" " , $text);
 if($data[0]=='daftar'){
                 ?>
@@ -56,10 +55,13 @@ if($data[0]=='daftar'){
                   <td><?=$text?></td>
                   <td><?=$chat_id?></td>
                   <td>@<?=$usernametele?></td>
-                  <td></td>
+                  <td><?=$email?></td>
                   <td>
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exampleModal<?= $no; ?>">
   chatt
+</button>
+<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#exampleEdit<?= $no; ?>">
+  edituser
 </button>
 </td>
 <!-- Modal -->
@@ -74,9 +76,36 @@ if($data[0]=='daftar'){
       </div>
       <div class="modal-body">
       <form action="<?= base_url('telegram/kirimpesan')?>" method="post">
-              <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
+              <div class="form-group <?php echo form_error('pesan') ? 'has-error' : '' ?>">
                 <label for="name">Isi Pesan</label>
                 <input class="form-control" type="text" name="pesan" value="Terima kasih telah melakukan pendafatran, permintaan anda akan kami proses 1x24 jam" required/>
+                <?= form_error('pesan', '<span class="help-block">', '</small>'); ?>
+              </div>
+      </div>
+      <div class="modal-footer">
+      <input class="form-control" type="hidden" name="chat_id" value="<?=$chat_id?>"/>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleEdit<?= $no; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit <?=$usernametele?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="<?= base_url('telegram/edituser')?>" method="post">
+              <div class="form-group <?php echo form_error('email') ? 'has-error' : '' ?>">
+                <label for="name">Email</label>
+                <input class="form-control" type="text" name="email" value="<?=$email?>" required/>
                 <?= form_error('pesan', '<span class="help-block">', '</small>'); ?>
               </div>
       </div>
@@ -96,7 +125,7 @@ if($data[0]=='daftar'){
             </tbody>
           </table>
           <hr>
-          <?= $response2?>
+          <!-- <?= $response2?> -->
       </div>
       <!-- /.box-body -->
     </div>
