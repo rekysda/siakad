@@ -36,6 +36,7 @@ class Telegram extends CI_Controller
       $this->session->userdata('email')])->row_array();
       $telegram_api_token = options('telegram_api_token');
       $telegram_master = options('telegram_master');
+      $data['telegram_autobot'] = $this->db->get('telegram_autobot')->result_array();
         // Load the curl library
         // $curl = curl_init();
         // curl_setopt_array($curl, array(
@@ -73,13 +74,14 @@ class Telegram extends CI_Controller
           $update_id=$dt['update_id'];
           $chat_id = $dt['message']['chat']['id'];
           $text = $dt['message']['text'];
+          $date = $dt['message']['date'];
           $username = $dt['message']['chat']['username'];
           $datas = explode(" " , $text);
           if($datas[0]=='daftar'){
           $jumlahdata = cekchatID($chat_id);
           if($jumlahdata=='0'){
             $datax = [
-              'update_id' => $update_id,
+              'date' => $date,
               'chat_id' => $chat_id,
               'text' => $text,
               'usernametele' => $username
@@ -160,6 +162,20 @@ class Telegram extends CI_Controller
  
      curl_close($ch);
     // echo $result;
+     redirect('telegram/cekupdate');
+   }
+
+   public function edituser()
+   {
+     $data['user'] = $this->db->get_where('user', ['email' =>
+     $this->session->userdata('email')])->row_array();
+     $chat_id = $this->input->post('chat_id');
+     $email = $this->input->post('email');
+     $data = [
+      'email' => $this->input->post('email')
+       ];
+        $this->db->where('chat_id', $chat_id);
+        $this->db->update('telegram_autobot', $data);
      redirect('telegram/cekupdate');
    }
 }
