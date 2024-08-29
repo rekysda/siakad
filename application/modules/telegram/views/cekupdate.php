@@ -21,7 +21,12 @@
       </div>
       <div class="box-body">
 <!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a> -->
-<a href="<?= base_url('telegram/get_webhookinfo')?>" class="btn btn-success"target="new">get Webhook</a>
+<a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger btn-xs"target="new">Delete Webhook</a>&nbsp;
+<a href="<?= base_url('telegram/get_webhookinfo')?>" class="btn btn-success btn-xs"target="new">Get Webhook</a>&nbsp;
+<a href="<?= base_url('telegram/get_update')?>" class="btn btn-primary btn-xs"target="new">Get Updates</a>
+<a href="https://api.telegram.org/bot<?=$telegram_api_token?>/setWebhook?url=https://manybot.io/webhook/7422473997/b904c2cf34" class="btn btn-default btn-xs"target="new">Set Webhook</a>&nbsp;
+
+
 <?= $this->session->flashdata('message') ?>
       <hr>
       <table class="table table-hover" id='example1'>

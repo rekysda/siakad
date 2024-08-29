@@ -37,20 +37,22 @@ class Telegram extends CI_Controller
       $telegram_api_token = options('telegram_api_token');
       $telegram_master = options('telegram_master');
       $data['telegram_autobot'] = $this->db->get('telegram_autobot')->result_array();
+      $data['telegram_api_token']=$telegram_api_token;
         // Load the curl library
-        // $curl = curl_init();
-        // curl_setopt_array($curl, array(
-        //   CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?url=',
-        //   CURLOPT_RETURNTRANSFER => true,
-        //   CURLOPT_ENCODING => '',
-        //   CURLOPT_MAXREDIRS => 10,
-        //   CURLOPT_TIMEOUT => 0,
-        //   CURLOPT_FOLLOWLOCATION => true,
-        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //   CURLOPT_CUSTOMREQUEST => 'GET',
-        // ));
-        // $response = curl_exec($curl);
-        // curl_close($curl);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?url=',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
           CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/getUpdates',
@@ -80,6 +82,9 @@ class Telegram extends CI_Controller
           if($datas[0]=='daftar'){
           $jumlahdata = cekchatID($chat_id);
           if($jumlahdata=='0'){
+            if($username==''){
+              $username='tidakada';
+            }
             $datax = [
               'date' => $date,
               'chat_id' => $chat_id,
@@ -96,6 +101,7 @@ class Telegram extends CI_Controller
         $this->load->view('cekupdate', $data);
         $this->load->view('themes/backend/footer');
         $this->load->view('themes/backend/footerajax');
+
       }
 
       
@@ -106,7 +112,7 @@ class Telegram extends CI_Controller
      // Load the curl library
      $curl = curl_init();
      curl_setopt_array($curl, array(
-       CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?remove',
+       CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/setWebhook?url=',
        CURLOPT_RETURNTRANSFER => true,
        CURLOPT_ENCODING => '',
        CURLOPT_MAXREDIRS => 10,
@@ -212,4 +218,26 @@ class Telegram extends CI_Controller
   //   }
   // }
    }
+
+   public function get_update()
+   {
+    $telegram_api_token = options('telegram_api_token');
+    $telegram_master = options('telegram_master');
+       // Load the curl library
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/getUpdates',
+         CURLOPT_RETURNTRANSFER => true,
+         CURLOPT_ENCODING => '',
+         CURLOPT_MAXREDIRS => 10,
+         CURLOPT_TIMEOUT => 0,
+         CURLOPT_FOLLOWLOCATION => true,
+         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+         CURLOPT_CUSTOMREQUEST => 'GET',
+       ));
+       $response = curl_exec($curl);
+       curl_close($curl);
+       $json2 = json_encode(json_decode($response),JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT); 
+       echo '<pre>'.$json2.'</pre>';
+    }
 }

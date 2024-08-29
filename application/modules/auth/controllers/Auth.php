@@ -564,7 +564,7 @@ I am at least PHP version 7.2.5, my version: ' . PHP_VERSION .'</div>';
 				$email])->row_array();
 				$chatID = $datauser['chat_id'];
 
-				$message='Click this link to reset your password: Link [URL](https://www.google.co.id/
+				$message='Click this link to reset your password: Link [URL](https://pusatwebmurah.my.id/siakad/
 				?email=' . $this->input->post('email') . '&token=' . $token . ')';
 				// $message='Click this link to reset your password:
 				// ' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . $token . '';
