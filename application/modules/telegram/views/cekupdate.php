@@ -21,6 +21,7 @@
       </div>
       <div class="box-body">
 <!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a> -->
+<a href="<?= base_url('telegram/get_webhookinfo')?>" class="btn btn-success"target="new">get Webhook</a>
 <?= $this->session->flashdata('message') ?>
       <hr>
       <table class="table table-hover" id='example1'>

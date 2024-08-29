@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Agu 2024 pada 06.04
+-- Waktu pembuatan: 29 Agu 2024 pada 07.21
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.2.33
 
@@ -1164,7 +1164,9 @@ INSERT INTO `options` (`id`, `name`, `value`) VALUES
 (13, 'newline', '\\r\\n'),
 (14, 'forbidden', '0'),
 (15, 'email_master', 'rekysda@gmail.com'),
-(16, 'login_token', '');
+(16, 'login_token', ''),
+(17, 'telegram_api_token', '6999079097:AAF00IiSkB3ATydumNCdcs-Vk6sm1Mk8R6Y'),
+(18, 'telegram_master', '+628885465802');
 
 -- --------------------------------------------------------
 
@@ -2853,7 +2855,34 @@ INSERT INTO `tb_log` (`id`, `tanggal`, `user`, `aksi`, `item`) VALUES
 (40, '2024-08-27 03:07:19', 'rifqihakim5889@gmail.com', 'Hapus Jalur', 'SEYAYASAN'),
 (41, '2024-08-27 03:09:03', 'rifqihakim5889@gmail.com', 'Hapus Gelombang Jalur', '#ID : 8'),
 (42, '2024-08-27 03:09:07', 'rifqihakim5889@gmail.com', 'Hapus Gelombang Jalur', '#ID : 5'),
-(43, '2024-08-27 03:09:12', 'rifqihakim5889@gmail.com', 'Hapus Gelombang Jalur', '#ID : 7');
+(43, '2024-08-27 03:09:12', 'rifqihakim5889@gmail.com', 'Hapus Gelombang Jalur', '#ID : 7'),
+(44, '2024-08-27 08:06:09', 'rekyefin@gmail.com', 'Tambah Menu', 'Telegram'),
+(45, '2024-08-27 08:06:35', 'rekyefin@gmail.com', 'Tambah Sub Menu', 'tele-setting'),
+(46, '2024-08-28 07:13:50', 'rekyefin@gmail.com', 'Tambah Sub Menu', 'tele-cekupdate');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `telegram_autobot`
+--
+
+DROP TABLE IF EXISTS `telegram_autobot`;
+CREATE TABLE `telegram_autobot` (
+  `id` int(11) NOT NULL,
+  `date` text NOT NULL,
+  `chat_id` text NOT NULL,
+  `text` text NOT NULL,
+  `usernametele` text NOT NULL,
+  `email` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `telegram_autobot`
+--
+
+INSERT INTO `telegram_autobot` (`id`, `date`, `chat_id`, `text`, `usernametele`, `email`) VALUES
+(10, '1724904435', '1164700499', 'daftar rekysda', 'rekysda', 'rekysda@gmail.com'),
+(11, '1724905392', '1328287324', 'daftar Rifqi', 'hakeemhh', 'hakim.rifqi1@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -2881,7 +2910,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`, `login_oauth_uid`) VALUES
 (3, 'Super Administrator', 'superadmin', 'rekysda@gmail.com', '1666765517616.jpg', '$2y$10$MPnKRsUT8l7GHr.0/Bm2UOwgZj70oSwRKM0clSuU3EfMK75RJcu5q', 1, 1, 1555463755, '115893857561817154855'),
-(11, 'Administrator', 'admin', 'rekyefin@gmail.com', 'default.jpg', '$2y$10$HkpekNzXW8oKxPJZOiLGXuzTjOVtQ2Zta2nczci2l9hMprxj3k8uq', 1, 1, 1666765620, '');
+(11, 'Administrator', 'admin', 'hakim.rifqi1@gmail.com', 'default.jpg', '$2y$10$HkpekNzXW8oKxPJZOiLGXuzTjOVtQ2Zta2nczci2l9hMprxj3k8uq', 1, 1, 1666765620, '');
 
 -- --------------------------------------------------------
 
@@ -2919,7 +2948,8 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (28, 1, 16),
 (29, 1, 17),
 (30, 1, 18),
-(31, 1, 19);
+(31, 1, 19),
+(32, 1, 20);
 
 -- --------------------------------------------------------
 
@@ -3051,7 +3081,9 @@ INSERT INTO `user_access_submenu` (`id`, `role_id`, `submenu_id`) VALUES
 (114, 1, 107),
 (115, 1, 108),
 (116, 1, 109),
-(117, 1, 110);
+(117, 1, 110),
+(118, 1, 111),
+(119, 1, 112);
 
 -- --------------------------------------------------------
 
@@ -3090,7 +3122,8 @@ INSERT INTO `user_menu` (`id`, `icon`, `menu_id`, `menu`) VALUES
 (16, 'fa fa-fw fa-book', 'bukutamu', 'BukuTamu'),
 (17, 'fa fa-fw fa-exclamation-circle', 'bk', 'BK'),
 (18, 'fa fa-fw fa-address-book', 'pemutihan', 'Pemutihan'),
-(19, 'fa fa-fw fa-users', 'log', 'Log');
+(19, 'fa fa-fw fa-users', 'log', 'Log'),
+(20, 'fa fa-fw fa-telegram', 'telegram', 'Telegram');
 
 -- --------------------------------------------------------
 
@@ -3244,7 +3277,9 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `sort`, `i
 (107, 10, 'Ultah Pegawai', 'kepegawaian/ultah_pegawai', '', 4, 1),
 (108, 18, 'Pemutihan Siswa', 'pemutihan/pemutihansiswa', '', 1, 1),
 (109, 18, 'Pemutihan Siswa Batal', 'pemutihan/pemutihanvoid', '', 2, 1),
-(110, 19, 'Aktifitas', 'log/aktifitas', '', 2, 1);
+(110, 19, 'Aktifitas', 'log/aktifitas', '', 2, 1),
+(111, 20, 'Tele Setting', 'telegram/setting', '', 1, 1),
+(112, 20, 'Tele CekUpdate', 'telegram/cekupdate', '', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -3278,7 +3313,15 @@ INSERT INTO `user_token` (`id`, `email`, `token`, `date_created`) VALUES
 (11, 'rekysda@gmail.com', 'UP2mMGWTZJcNa7C3XIHkjtuKp9y8rDef', 1724730844),
 (12, 'rekysda@gmail.com', 'ZY3uz6Mq4bFoh0L1cPQW5H8dfRjO7xn2', 1724730910),
 (13, 'rekyefin@gmail.com', 'EM9dPbfc8s7IraFDBgmWX4vKH0Y2zULA', 1724731254),
-(14, 'rekyefin@gmail.com', '8RCzPU9axHrvE3S7MpdfTcNjFLmtJi4n', 1724731428);
+(14, 'rekyefin@gmail.com', '8RCzPU9axHrvE3S7MpdfTcNjFLmtJi4n', 1724731428),
+(15, 'rekysda@gmail.com', 'sMTFZv8o6fCzWq5X4RkgwD1E9uQVeImh', 1724905884),
+(16, 'rekysda@gmail.com', '5TQAwW9rBtpO08knDhSdGI4Ff7ULVHlX', 1724906691),
+(17, 'rekysda@gmail.com', '3cz5Nxy18DbapAKt4IFwMVJkodn9XqOH', 1724906735),
+(18, 'rekysda@gmail.com', '2GvoJ4qOSTZIAdcXhElg96uiNy7VrDP0', 1724906929),
+(19, 'rekysda@gmail.com', 'BM78tjaqvd2SOfchPn13mTRUYgEHpbye', 1724907011),
+(20, 'rekysda@gmail.com', '95EsWlXwi2QOrkxoBAn0KDmGZvaMTbd8', 1724907270),
+(21, 'rekysda@gmail.com', 'wz05KHBsU23oAc6guPNJ1xanVTrqWd7l', 1724907358),
+(22, 'rekysda@gmail.com', 'IPEYJyCnBQhgAO2mk6Frqb7Ds18T3Vij', 1724907412);
 
 -- --------------------------------------------------------
 
@@ -3780,6 +3823,12 @@ ALTER TABLE `tb_log`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `telegram_autobot`
+--
+ALTER TABLE `telegram_autobot`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
@@ -4045,7 +4094,7 @@ ALTER TABLE `m_tahunppdb`
 -- AUTO_INCREMENT untuk tabel `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `pages`
@@ -4273,7 +4322,13 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT untuk tabel `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT untuk tabel `telegram_autobot`
+--
+ALTER TABLE `telegram_autobot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
@@ -4285,19 +4340,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_submenu`
 --
 ALTER TABLE `user_access_submenu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role`
@@ -4309,13 +4364,13 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT untuk tabel `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `web_setting`
