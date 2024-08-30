@@ -14,23 +14,27 @@
 
   <!-- Main content -->
   <section class="content">
+  <?= $this->session->flashdata('message') ?>
           <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title"><?= $title; ?></h3>
       </div>
       <div class="box-body">
-      <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
-                <label for="name">Token</label>
-                <input class="form-control" type="text" name="token" value="<?= $telegram_api_token?>"readonly />
-                <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
-              </div>
-      <div class="form-group <?php echo form_error('tahun') ? 'has-error' : '' ?>">
+      <form action="" method="post">
+      <div class="form-group <?php echo form_error('token') ? 'has-error' : '' ?>">
+      <label for="name">Token</label>
+      <input class="form-control" type="text" name="token" value="<?= $telegram_api_token?>"/>
+      <?= form_error('token', '<span class="help-block">', '</small>'); ?>
+    </div>
+      <div class="form-group <?php echo form_error('telegram_master') ? 'has-error' : '' ?>">
         <label for="name">Phone</label>
-        <input class="form-control" type="text" name="telegram_master" value="<?=$telegram_master?>"readonly />
-        <?= form_error('tahun', '<span class="help-block">', '</small>'); ?>
+        <input class="form-control" type="text" name="telegram_master" value="<?=$telegram_master?>"/>
+        <?= form_error('telegram_master', '<span class="help-block">', '</small>'); ?>
       </div>
 
+      <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
       </div>
       <!-- /.box-body -->
     </div>

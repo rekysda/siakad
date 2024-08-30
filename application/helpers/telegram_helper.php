@@ -41,4 +41,38 @@ function getkirimpesan($chatID,$message)
         return $jumlahdata;
     }
 
+    function get_webhookinfo()
+    {
+     $telegram_api_token = options('telegram_api_token');
+     $telegram_master = options('telegram_master');
+        // Load the curl library
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/getWebhookInfo',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+       // return $response;
+         $json2 = json_encode(json_decode($response),JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT); 
+         return $json2;
+ 
+   //  {
+   //   "ok": true,
+   //   "result": {
+   //     "url": "https://manybot.io/webhook/7422473997/b904c2cf34",
+   //     "has_custom_certificate": false,
+   //     "pending_update_count": 0,
+   //     "max_connections": 40,
+   //     "ip_address": "52.28.152.1"
+   //   }
+   // }
+    }
+
 ?>

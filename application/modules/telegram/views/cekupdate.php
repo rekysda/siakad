@@ -20,25 +20,31 @@
         <h3 class="box-title"><?= $title; ?></h3>
       </div>
       <div class="box-body">
-<!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger">refresh Webhook</a> -->
-<a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger btn-xs"target="new">Delete Webhook</a>&nbsp;
-<a href="<?= base_url('telegram/get_webhookinfo')?>" class="btn btn-success btn-xs"target="new">Get Webhook</a>&nbsp;
-<a href="<?= base_url('telegram/get_update')?>" class="btn btn-primary btn-xs"target="new">Get Updates</a>
-<a href="https://api.telegram.org/bot<?=$telegram_api_token?>/setWebhook?url=https://manybot.io/webhook/7422473997/b904c2cf34" class="btn btn-default btn-xs"target="new">Set Webhook</a>&nbsp;
-
-
+<!-- <a href="<?= base_url('telegram/delete_webhook')?>" class="btn btn-danger btn-xs">Delete Webhook</a>&nbsp;
+<a href="<?= base_url('telegram/set_webhookdefault')?>" class="btn btn-default btn-xs">Set Webhook Default</a>&nbsp;
+<a href="<?= base_url('telegram/ambil_webhook')?>" class="btn btn-primary btn-xs">Simpan Database</a>&nbsp;
+<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#getupdate">
+WebHookGetUpdates
+</button>
+<a href="<?= base_url('telegram/alertdaftar')?>" class="btn btn-warning btn-xs">AlertDaftar</a>&nbsp; -->
+<a href="<?= base_url('telegram/set_webhookonline')?>" class="btn btn-danger btn-xs">Set Webhook Online</a>&nbsp;
+<hr>
 <?= $this->session->flashdata('message') ?>
       <hr>
+      <!-- <?= '<pre>'.$get_webhookinfo.'</pre>';?><br> -->
+<?php      $json = json_decode($get_webhookinfo, TRUE);?>
+WebHook URL: <?= $json['result']['url'];?>
       <table class="table table-hover" id='example1'>
             <thead>
               <tr>
                 <th>#</th>
-                <th>date</th>
-                <th>text</th>
-                <th>chat_id</th>
-                <th>@usernametele</th>
+                <th>Date</th>
+                <th>Text</th>
+                <th>Chat_id</th>
                 <th>Email</th>
-                <th>aksi</th>
+                <th>@usernametele</th>
+                <th>UsernameLogin</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -46,22 +52,22 @@
                 $json = json_decode($response, TRUE);
                 $no='1';
                 foreach ($telegram_autobot as $dt) : 
-
 $text=$dt['text'];
 $date=$dt['date'];
 $chat_id=$dt['chat_id'];
-$usernametele=$dt['usernametele'];
 $email=$dt['email'];
+$usernametele=$dt['usernametele'];
+$usernamelogin=$dt['usernamelogin'];
 $data = explode(" " , $text);
-if($data[0]=='daftar'){
                 ?>
                 <tr>
                   <td><?= $no; ?></td>
                   <td><?= date('d-M-Y H:i:s', $date);?></td>
                   <td><?=$text?></td>
                   <td><?=$chat_id?></td>
-                  <td>@<?=$usernametele?></td>
                   <td><?=$email?></td>
+                  <td>@<?=$usernametele?></td>
+                  <td><?=$usernamelogin?></td>
                   <td>
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exampleModal<?= $no; ?>">
   chatt
@@ -109,11 +115,16 @@ if($data[0]=='daftar'){
       </div>
       <div class="modal-body">
       <form action="<?= base_url('telegram/edituser')?>" method="post">
-              <div class="form-group <?php echo form_error('email') ? 'has-error' : '' ?>">
-                <label for="name">Email</label>
-                <input class="form-control" type="text" name="email" value="<?=$email?>" required/>
-                <?= form_error('pesan', '<span class="help-block">', '</small>'); ?>
-              </div>
+      <div class="form-group <?php echo form_error('email') ? 'has-error' : '' ?>">
+        <label for="name">Email</label>
+        <input class="form-control" type="text" name="email" value="<?=$email?>" required/>
+        <?= form_error('pesan', '<span class="help-block">', '</small>'); ?>
+      </div>
+      <div class="form-group <?php echo form_error('usernamelogin') ? 'has-error' : '' ?>">
+        <label for="name">UsernameLogin</label>
+        <input class="form-control" type="text" name="usernamelogin" value="<?=$usernamelogin?>" required/>
+        <?= form_error('usernamelogin', '<span class="help-block">', '</small>'); ?>
+      </div>
       </div>
       <div class="modal-footer">
       <input class="form-control" type="hidden" name="chat_id" value="<?=$chat_id?>"/>
@@ -126,11 +137,45 @@ if($data[0]=='daftar'){
 </div>
 </tr>
 <?php $no++;?>
-<?php }?>
+
               <?php endforeach; ?>
             </tbody>
           </table>
           <hr>
+          <!-- Modal -->
+<div class="modal fade" id="getupdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">GetUpdates</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?php
+      $telegram_api_token = options('telegram_api_token');
+      $telegram_master = options('telegram_master');
+       // Load the curl library
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.telegram.org/bot'.$telegram_api_token.'/getUpdates',
+         CURLOPT_RETURNTRANSFER => true,
+         CURLOPT_ENCODING => '',
+         CURLOPT_MAXREDIRS => 10,
+         CURLOPT_TIMEOUT => 0,
+         CURLOPT_FOLLOWLOCATION => true,
+         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+         CURLOPT_CUSTOMREQUEST => 'GET',
+       ));
+       $response = curl_exec($curl);
+       curl_close($curl);
+       $json2 = json_encode(json_decode($response),JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT); 
+       echo '<pre>'.$json2.'</pre>';
+       ?>
+    </div>
+  </div>
+</div>
           <!-- <?= $response2?> -->
       </div>
       <!-- /.box-body -->
