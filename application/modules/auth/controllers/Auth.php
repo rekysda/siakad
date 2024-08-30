@@ -109,11 +109,29 @@ class Auth extends CI_Controller
 					];
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {
+						$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
+						$chatID = $usertele['chat_id'];
+						if($chatID){
+						$message ='user '.$username.' melakukan login pada'.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
+						getkirimpesan($chatID,$message);
+						}
 						redirect('user');
 					} else {
+						$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
+						$chatID = $usertele['chat_id'];
+						if($chatID){
+						$message ='user '.$username.' melakukan login pada'.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
+						getkirimpesan($chatID,$message);
+						}
 						redirect('user');
 					}
 				} else {
+					$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
+					$chatID = $usertele['chat_id'];
+					if($chatID){
+					$message ='user '.$username.' melakukan salah password ketika login pada'.date('d/M/Y H:i:s').' hubungi administrator segera';
+					getkirimpesan($chatID,$message);
+					}
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role"alert">Wrong password! </div>');
 					redirect('login');
 				}
@@ -277,6 +295,13 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('siswa_id');
 		$this->session->unset_userdata('gelombang_id');
 		*/
+		$username = $this->session->userdata('username');
+		$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
+		$chatID = $usertele['chat_id'];
+		if($chatID){
+		$message ='user '.$username.' melakukan logout pada'.date('d/M/Y H:i:s').', terima kasih';
+		getkirimpesan($chatID,$message);
+		}
 		$this->session->sess_destroy();
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role"alert">
 		You have been logout!</div>');
