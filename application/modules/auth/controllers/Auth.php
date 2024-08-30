@@ -112,7 +112,7 @@ class Auth extends CI_Controller
 						$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
 						$chatID = $usertele['chat_id'];
 						if($chatID){
-						$message ='user '.$username.' melakukan login pada'.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
+						$message ='user '.$username.' melakukan login pada '.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
 						getkirimpesan($chatID,$message);
 						}
 						redirect('user');
@@ -120,7 +120,7 @@ class Auth extends CI_Controller
 						$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
 						$chatID = $usertele['chat_id'];
 						if($chatID){
-						$message ='user '.$username.' melakukan login pada'.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
+						$message ='user '.$username.' melakukan login pada '.date('d/M/Y H:i:s').' hubungi administrator jika bukan anda ';
 						getkirimpesan($chatID,$message);
 						}
 						redirect('user');
@@ -129,7 +129,7 @@ class Auth extends CI_Controller
 					$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
 					$chatID = $usertele['chat_id'];
 					if($chatID){
-					$message ='user '.$username.' melakukan salah password ketika login pada'.date('d/M/Y H:i:s').' hubungi administrator segera';
+					$message ='user '.$username.' melakukan salah password ketika login pada '.date('d/M/Y H:i:s').' hubungi administrator segera';
 					getkirimpesan($chatID,$message);
 					}
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role"alert">Wrong password! </div>');
@@ -299,7 +299,7 @@ class Auth extends CI_Controller
 		$usertele = $this->db->get_where('telegram_autobot', ['usernamelogin' => $username])->row_array();
 		$chatID = $usertele['chat_id'];
 		if($chatID){
-		$message ='user '.$username.' melakukan logout pada'.date('d/M/Y H:i:s').', terima kasih';
+		$message ='user '.$username.' melakukan logout pada '.date('d/M/Y H:i:s').', terima kasih';
 		getkirimpesan($chatID,$message);
 		}
 		$this->session->sess_destroy();
