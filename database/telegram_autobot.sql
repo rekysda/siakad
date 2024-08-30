@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Agu 2024 pada 07.57
+-- Waktu pembuatan: 30 Agu 2024 pada 10.18
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.2.33
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `siakad`
+-- Database: `sisterv4fratz`
 --
 
 -- --------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE `telegram_autobot` (
   `text` text NOT NULL,
   `usernametele` text NOT NULL,
   `email` text NOT NULL,
-  `alertdaftar` int(2) NOT NULL DEFAULT 0
+  `usernamelogin` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
