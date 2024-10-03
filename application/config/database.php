@@ -94,3 +94,7 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+// 'username' => 'puss9359_pusatwebmurah',
+// 'password' => 'pusatwebmurah2023',
+// 'database' => 'puss9359_siakad',
