@@ -20,8 +20,7 @@ class Auth extends CI_Controller
 		$this->load->model('LoginModel');
 	//	require APPPATH . 'vendor/google/google-api-php-client/vendor/autoload.php';
 		$google_client = new Google_Client();
-        $google_client->setClientId('780327326834-40029f0fvm9r6l7er9c4h4kdr0a44j8u.apps.googleusercontent.com'); //Define your ClientID
-        $google_client->setClientSecret('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'); //Define your Client Secret Key
+
         $google_client->setRedirectUri(base_url('login')); //Define your Redirect Uri
         $google_client->addScope('email');
         $google_client->addScope('profile');
